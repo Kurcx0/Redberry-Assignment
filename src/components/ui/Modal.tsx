@@ -1,5 +1,5 @@
 import clsx from 'clsx'
-import { useEffect, useId, useRef, type ReactNode } from 'react'
+import { useEffect, useId, useLayoutEffect, useRef, useState, type ReactNode } from 'react'
 import { createPortal } from 'react-dom'
 import { CloseIcon } from '@/components/icons'
 
@@ -12,8 +12,8 @@ type ModalProps = {
   className?: string
   labelledBy?: string
   label?: string
-  align?: 'center' | 'top'
   bare?: boolean
+  position?: { top: number; left: number }
 }
 
 export default function Modal({
@@ -23,11 +23,15 @@ export default function Modal({
   className,
   labelledBy,
   label,
-  align = 'center',
   bare = false,
+  position,
 }: ModalProps) {
   const id = useId()
   const onCloseRef = useRef(onClose)
+  const containerRef = useRef<HTMLDivElement>(null)
+  const panelRef = useRef<HTMLDivElement>(null)
+  const [offset, setOffset] = useState<number | null>(null)
+  const positioned = !!position
 
   useEffect(() => {
     onCloseRef.current = onClose
@@ -54,27 +58,38 @@ export default function Modal({
     }
   }, [open, id])
 
+  useLayoutEffect(() => {
+    if (!open || positioned) return
+    const container = containerRef.current
+    const panel = panelRef.current
+    if (container && panel) {
+      setOffset(Math.max(24, Math.round((container.clientHeight - panel.offsetHeight) / 2)))
+    }
+    return () => setOffset(null)
+  }, [open, positioned])
+
   if (!open) return null
 
   return createPortal(
-    <div className="fixed inset-0 z-50 overflow-y-auto">
+    <div ref={containerRef} className="fixed inset-0 z-50 overflow-y-auto">
       <div className="fixed inset-0 animate-fade-in bg-[#02040b]/65 backdrop-blur-[6px]" aria-hidden />
       <div
-        className={clsx(
-          'relative flex min-h-full justify-center p-6',
-          align === 'center' ? 'items-center' : 'items-start',
-        )}
+        className={clsx('relative min-h-full', !position && 'flex justify-center px-6 pb-6')}
+        style={position ? undefined : { paddingTop: offset ?? 24 }}
         onMouseDown={(event) => {
           if (event.target === event.currentTarget) onClose()
         }}
       >
         <div
+          ref={panelRef}
           role="dialog"
           aria-modal="true"
           aria-labelledby={labelledBy}
           aria-label={label}
+          style={position ? { position: 'absolute', top: position.top, left: position.left } : undefined}
           className={clsx(
-            'relative w-full animate-pop-in',
+            'animate-pop-in',
+            !position && 'relative w-full',
             !bare && 'rounded-3xl border border-white/8 bg-[#0b0e1f] shadow-2xl shadow-black/60',
             className,
           )}
