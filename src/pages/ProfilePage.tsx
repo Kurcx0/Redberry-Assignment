@@ -52,7 +52,7 @@ function ProfileContent() {
 
   return (
     <>
-      <div className="mt-6 flex gap-8 border-b border-line" role="tablist" aria-label="Profile sections">
+      <div className="mt-6 flex gap-9" role="tablist" aria-label="Profile sections">
         {tabs.map((item) => (
           <button
             key={item.id}
@@ -61,16 +61,17 @@ function ProfileContent() {
             aria-selected={tab === item.id}
             onClick={() => setParams(item.id === 'info' ? {} : { tab: item.id }, { preventScrollReset: true })}
             className={clsx(
-              '-mb-px flex items-center gap-2 border-b-2 pb-3 text-sm font-semibold transition-colors',
-              tab === item.id ? 'border-primary text-white' : 'border-transparent text-muted hover:text-white',
+              'relative flex items-center gap-2 pb-4 text-base font-semibold transition-colors',
+              tab === item.id ? 'text-white' : 'text-muted hover:text-white',
             )}
           >
             {item.label}
             {item.id === 'tickets' && upcomingCount > 0 && (
-              <span className="flex size-5 items-center justify-center rounded-full bg-primary text-[11px] font-extrabold text-white">
+              <span className="flex h-[17px] min-w-[19px] items-center justify-center rounded-full bg-primary px-1 text-[11px] font-extrabold text-white">
                 {upcomingCount}
               </span>
             )}
+            {tab === item.id && <span className="absolute inset-x-0 bottom-0 h-[3px] rounded-full bg-primary" />}
           </button>
         ))}
       </div>

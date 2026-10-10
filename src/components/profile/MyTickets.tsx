@@ -32,7 +32,7 @@ export default function MyTickets() {
 
   return (
     <div>
-      <div className="inline-flex gap-1 rounded-full bg-surface p-1" role="tablist" aria-label="Tickets">
+      <div className="inline-flex rounded-xl bg-surface p-[5px]" role="tablist" aria-label="Tickets">
         {(
           [
             ['upcoming', 'Upcoming', upcoming.length],
@@ -46,12 +46,12 @@ export default function MyTickets() {
             aria-selected={view === value}
             onClick={() => changeView(value)}
             className={clsx(
-              'flex h-9 items-center gap-2 rounded-full px-4 text-[13px] font-semibold transition-colors',
-              view === value ? 'bg-surface-3' : 'text-muted hover:text-white',
+              'flex h-[29px] items-center gap-2 rounded-[10px] px-4 text-sm font-semibold transition-colors',
+              view === value ? 'bg-surface-2 text-white' : 'text-muted hover:text-white',
             )}
           >
             {label}
-            {data && <span className="rounded-full bg-white/10 px-1.5 text-[11px] leading-5">{count}</span>}
+            {data && <span className={view === value ? 'text-white' : 'text-dim'}>{count}</span>}
           </button>
         ))}
       </div>
