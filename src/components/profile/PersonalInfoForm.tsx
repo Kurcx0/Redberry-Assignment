@@ -40,8 +40,7 @@ export default function PersonalInfoForm({ user }: { user: User }) {
     formState: { errors, touchedFields, isDirty, isValid },
   } = useForm<ProfileValues>({
     resolver: zodResolver(profileSchema),
-    mode: 'onBlur',
-    reValidateMode: 'onChange',
+    mode: 'onTouched',
     defaultValues: toFormValues(user),
   })
 

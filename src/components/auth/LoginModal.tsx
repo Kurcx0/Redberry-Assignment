@@ -26,13 +26,11 @@ function LoginForm() {
   const {
     register,
     handleSubmit,
-    watch,
     setError,
-    formState: { errors, touchedFields },
+    formState: { errors, touchedFields, isValid },
   } = useForm<LoginValues>({
     resolver: zodResolver(loginSchema),
-    mode: 'onBlur',
-    reValidateMode: 'onChange',
+    mode: 'onTouched',
     defaultValues: { email: '', password: '' },
   })
 
@@ -42,7 +40,6 @@ function LoginForm() {
     onError: (error) => applyServerErrors(error, setError),
   })
 
-  const [email, password] = watch(['email', 'password'])
   const formError =
     mutation.error instanceof ApiError && !mutation.error.isValidation ? mutation.error.message : null
 
@@ -84,7 +81,7 @@ function LoginForm() {
         type="submit"
         size="lg"
         className="mt-6 w-full"
-        disabled={!email || !password}
+        disabled={!isValid}
         loading={mutation.isPending}
       >
         Log in

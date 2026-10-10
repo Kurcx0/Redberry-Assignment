@@ -46,11 +46,10 @@ export default function Checkout({ session, hold, user, onPaid, onFailed }: Chec
     register,
     handleSubmit,
     setError,
-    formState: { errors, touchedFields },
+    formState: { errors, touchedFields, isValid },
   } = useForm<CheckoutValues>({
     resolver: zodResolver(checkoutSchema),
-    mode: 'onBlur',
-    reValidateMode: 'onChange',
+    mode: 'onTouched',
     defaultValues: {
       fullName: user?.fullName ?? '',
       email: user?.email ?? '',
@@ -146,7 +145,7 @@ export default function Checkout({ session, hold, user, onPaid, onFailed }: Chec
             <span className="text-xs font-semibold tracking-[0.08em] text-muted uppercase">Total</span>
             <span className="text-2xl font-extrabold">{formatPrice(hold.subtotal)}</span>
           </div>
-          <Button type="submit" size="lg" className="mt-4 w-full" loading={mutation.isPending}>
+          <Button type="submit" size="lg" className="mt-4 w-full" disabled={!isValid} loading={mutation.isPending}>
             Pay &amp; Complete Order
           </Button>
         </div>

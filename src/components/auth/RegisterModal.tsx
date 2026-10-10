@@ -37,13 +37,11 @@ function RegisterForm() {
   const {
     register,
     handleSubmit,
-    watch,
     setError,
-    formState: { errors, touchedFields },
+    formState: { errors, touchedFields, isValid },
   } = useForm<RegisterValues>({
     resolver: zodResolver(registerSchema),
-    mode: 'onBlur',
-    reValidateMode: 'onChange',
+    mode: 'onTouched',
     defaultValues: { username: '', email: '', password: '', password_confirmation: '' },
   })
 
@@ -81,6 +79,12 @@ function RegisterForm() {
     setAvatar(file)
   }
 
+  function removeAvatar() {
+    setAvatar(null)
+    setAvatarPreview(null)
+    setAvatarError(null)
+  }
+
   function onSubmit(values: RegisterValues) {
     const data = new FormData()
     Object.entries(values).forEach(([key, value]) => data.append(key, value))
@@ -88,8 +92,6 @@ function RegisterForm() {
     mutation.mutate(data)
   }
 
-  const values = watch()
-  const isEmpty = Object.values(values).some((value) => !value)
   const fieldState = (name: keyof RegisterValues) => ({
     error: errors[name]?.message,
     valid: touchedFields[name] && !errors[name],
@@ -105,30 +107,41 @@ function RegisterForm() {
       <p className="mt-1 text-[13px] text-muted">Welcome to Kino XII</p>
 
       <div className="mt-6">
-        <button
-          type="button"
-          onClick={() => fileInputRef.current?.click()}
-          className="group flex items-center gap-3 text-left"
-        >
-          <span
-            className={clsx(
-              'flex size-[42px] shrink-0 items-center justify-center overflow-hidden rounded-lg border bg-surface transition-colors',
-              avatarError ? 'border-primary' : 'border-transparent group-hover:border-white/25',
-            )}
+        <div className="flex items-center gap-4">
+          <button
+            type="button"
+            onClick={() => fileInputRef.current?.click()}
+            className="group flex items-center gap-3 text-left"
           >
-            {avatarPreview ? (
-              <img src={avatarPreview} alt="Avatar preview" className="size-full object-cover" />
-            ) : (
-              <UserIcon className="size-5 text-muted" />
-            )}
-          </span>
-          <span>
-            <span className="block text-[13px] font-semibold">
-              {avatar ? 'Change avatar' : 'Upload avatar (optional)'}
+            <span
+              className={clsx(
+                'flex size-[42px] shrink-0 items-center justify-center overflow-hidden rounded-lg border bg-surface transition-colors',
+                avatarError ? 'border-primary' : 'border-transparent group-hover:border-white/25',
+              )}
+            >
+              {avatarPreview ? (
+                <img src={avatarPreview} alt="Avatar preview" className="size-full object-cover" />
+              ) : (
+                <UserIcon className="size-5 text-muted" />
+              )}
             </span>
-            <span className="block text-[11px] text-muted">JPG, PNG or WEBP</span>
-          </span>
-        </button>
+            <span>
+              <span className="block text-[13px] font-semibold">
+                {avatar ? 'Change avatar' : 'Upload avatar (optional)'}
+              </span>
+              <span className="block text-[11px] text-muted">JPG, PNG or WEBP</span>
+            </span>
+          </button>
+          {avatar && (
+            <button
+              type="button"
+              onClick={removeAvatar}
+              className="text-[13px] font-semibold text-muted transition-colors hover:text-white"
+            >
+              Remove
+            </button>
+          )}
+        </div>
         <input
           ref={fileInputRef}
           type="file"
@@ -185,7 +198,7 @@ function RegisterForm() {
         type="submit"
         size="lg"
         className="mt-6 w-full"
-        disabled={isEmpty}
+        disabled={!isValid}
         loading={mutation.isPending}
       >
         Sign up
