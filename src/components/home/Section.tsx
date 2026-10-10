@@ -12,7 +12,7 @@ type SectionProps = {
 export default function Section({ title, action, children, className, uppercase = true }: SectionProps) {
   return (
     <section className={clsx('pt-12', className)}>
-      <div className="flex items-end justify-between px-[68px]">
+      <div className="flex items-end justify-between px-[72px]">
         <h2 className={clsx('text-2xl font-extrabold', uppercase && 'uppercase')}>{title}</h2>
         {action}
       </div>
@@ -22,5 +22,5 @@ export default function Section({ title, action, children, className, uppercase 
 }
 
 export function CardRow({ children }: { children: ReactNode }) {
-  return <div className="thin-scrollbar flex gap-[18px] overflow-x-auto px-[68px] pb-4">{children}</div>
+  return <div className="thin-scrollbar flex gap-[18px] overflow-x-auto px-[72px] pb-4">{children}</div>
 }

@@ -2,7 +2,7 @@ import clsx from 'clsx'
 import type { ButtonHTMLAttributes } from 'react'
 import Spinner from './Spinner'
 
-type Variant = 'primary' | 'secondary' | 'dark' | 'light' | 'glass' | 'outline'
+type Variant = 'primary' | 'secondary' | 'dark' | 'light' | 'glass' | 'outline' | 'subtle'
 type Size = 'sm' | 'md' | 'lg'
 
 const variants: Record<Variant, string> = {
@@ -12,6 +12,7 @@ const variants: Record<Variant, string> = {
   light: 'bg-white text-page disabled:opacity-60',
   glass: 'bg-white/10 text-white backdrop-blur-[22px] hover:bg-muted disabled:opacity-60',
   outline: 'border border-muted text-white hover:bg-white/10 disabled:text-muted',
+  subtle: 'bg-white/10 text-white',
 }
 
 const sizes: Record<Size, string> = {

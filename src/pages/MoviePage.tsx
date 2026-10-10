@@ -158,7 +158,7 @@ function ComingSoonNotice({ movie }: { movie: MovieDetail }) {
       </p>
       <Button className="mt-6" onClick={notify} loading={isPending} disabled={isNotified} variant={isNotified ? 'secondary' : 'primary'}>
         {!isPending && (isNotified ? <CheckIcon /> : <BellIcon />)}
-        {isNotified ? "You'll be notified" : 'Notify Me'}
+        {isNotified ? 'Reminder set' : 'Notify Me'}
       </Button>
     </section>
   )

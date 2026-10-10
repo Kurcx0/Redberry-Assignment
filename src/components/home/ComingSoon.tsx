@@ -1,35 +1,52 @@
 import { useQuery } from '@tanstack/react-query'
+import clsx from 'clsx'
 import dayjs from 'dayjs'
-import { Link } from 'react-router'
+import { useState } from 'react'
 import { getComingSoon } from '@/api/movies'
 import type { Movie } from '@/api/types'
 import { BellIcon, CalendarIcon, CheckIcon } from '@/components/icons'
 import { AgeBadge } from '@/components/movies/Badges'
 import Poster from '@/components/movies/Poster'
-import Button from '@/components/ui/Button'
+import Button, { buttonClasses } from '@/components/ui/Button'
 import EmptyState from '@/components/ui/EmptyState'
 import ErrorState from '@/components/ui/ErrorState'
 import Skeleton from '@/components/ui/Skeleton'
 import { useMe } from '@/hooks/useMe'
 import { useNotifyMe } from '@/hooks/useNotifyMe'
 import { formatRuntime } from '@/lib/format'
-import Section, { CardRow } from './Section'
+import Section from './Section'
 
 export default function ComingSoon() {
   const { user } = useMe()
+  const [expanded, setExpanded] = useState(false)
   const { data, isPending, isError, refetch, isRefetching } = useQuery({
     queryKey: ['movies', 'coming-soon', user?.id ?? 'guest'],
-    queryFn: () => getComingSoon(12),
+    queryFn: () => getComingSoon(),
   })
 
   return (
-    <Section title="Coming Soon" className="pb-16">
+    <Section
+      title="Coming Soon"
+      className="pb-16"
+      action={
+        !!data?.length && (
+          <button
+            type="button"
+            onClick={() => setExpanded((value) => !value)}
+            aria-expanded={expanded}
+            className="text-[13px] font-semibold text-primary hover:underline"
+          >
+            {expanded ? 'Show less' : 'See all'}
+          </button>
+        )
+      }
+    >
       {isPending && (
-        <CardRow>
-          {Array.from({ length: 7 }, (_, index) => (
-            <Skeleton key={index} className="h-[477px] w-[258px] shrink-0 rounded-2xl" />
+        <div className="flex gap-6 overflow-hidden px-[72px]">
+          {Array.from({ length: 4 }, (_, index) => (
+            <Skeleton key={index} className="h-[148px] w-[465px] shrink-0 rounded-2xl" />
           ))}
-        </CardRow>
+        </div>
       )}
       {isError && <ErrorState onRetry={() => refetch()} retrying={isRefetching} />}
       {data?.length === 0 && (
@@ -40,11 +57,16 @@ export default function ComingSoon() {
         />
       )}
       {!!data?.length && (
-        <CardRow>
+        <div
+          className={clsx(
+            'flex gap-6 px-[72px]',
+            expanded ? 'flex-wrap' : 'thin-scrollbar overflow-x-auto pb-4',
+          )}
+        >
           {data.map((movie) => (
             <ComingSoonCard key={movie.id} movie={movie} />
           ))}
-        </CardRow>
+        </div>
       )}
     </Section>
   )
@@ -52,48 +74,39 @@ export default function ComingSoon() {
 
 function ComingSoonCard({ movie }: { movie: Movie }) {
   const { notify, isPending, isNotified } = useNotifyMe(movie)
+  const genre = movie.genres[0]?.name
 
   return (
-    <article className="flex w-[258px] shrink-0 flex-col rounded-2xl bg-surface p-2.5">
-      <Link
-        to={`/movies/${movie.slug}`}
-        className="relative block h-[357px] overflow-hidden rounded-xl"
-        aria-label={movie.title}
-      >
-        <Poster
-          src={movie.posterUrl}
-          alt={movie.title}
-          className="size-full transition-transform duration-500 hover:scale-105"
-        />
-        <span className="absolute top-3 left-3 rounded-full bg-page/80 px-2.5 py-1 text-[11px] font-extrabold tracking-wide text-warning uppercase backdrop-blur-sm">
-          Coming soon
-        </span>
-      </Link>
-      <div className="flex flex-1 flex-col px-1.5 pt-3.5 pb-1">
-        <h3 className="truncate text-base font-extrabold">
-          <Link to={`/movies/${movie.slug}`} className="hover:underline">
-            {movie.title}
-          </Link>
+    <article className="flex h-[148px] w-[465px] shrink-0 gap-4 rounded-2xl border border-line bg-surface p-2">
+      <Poster
+        src={movie.backdropUrl ?? movie.posterUrl}
+        alt={movie.title}
+        className="h-full w-[231px] shrink-0 rounded-xl"
+      />
+      <div className="flex min-w-0 flex-1 flex-col py-1.5 pr-2">
+        <p className="text-[11px] font-extrabold tracking-wide text-primary uppercase">
+          In cinemas {dayjs(movie.releaseDate).format('D MMMM')}
+        </p>
+        <h3 className="mt-1.5 truncate text-base font-extrabold" title={movie.title}>
+          {movie.title}
         </h3>
-        <div className="mt-2 flex items-center gap-2 text-[13px] text-muted">
-          <AgeBadge rating={movie.ageRating} />
-          <span>{formatRuntime(movie.runtimeMinutes)}</span>
-        </div>
-        <div className="mt-4 flex items-center justify-between gap-3">
-          <span className="text-[13px] text-muted">
-            <span className="block text-[11px] tracking-wide uppercase">Release</span>
-            <span className="font-semibold text-white">{dayjs(movie.releaseDate).format('D MMM YYYY')}</span>
-          </span>
-          <Button
-            variant={isNotified ? 'secondary' : 'outline'}
-            size="sm"
-            onClick={notify}
-            loading={isPending}
-            disabled={isNotified}
-          >
-            {!isPending && (isNotified ? <CheckIcon /> : <BellIcon />)}
-            {isNotified ? 'Notified' : 'Notify Me'}
-          </Button>
+        <p className="mt-1 truncate text-xs text-muted">
+          {genre ? `${genre} · ` : ''}
+          {formatRuntime(movie.runtimeMinutes)}
+        </p>
+        <AgeBadge rating={movie.ageRating} className="mt-2 self-start" />
+        <div className="mt-auto">
+          {isNotified ? (
+            <span className={buttonClasses('subtle', 'sm', 'cursor-default')}>
+              <CheckIcon />
+              Reminder set
+            </span>
+          ) : (
+            <Button variant="outline" size="sm" onClick={notify} loading={isPending}>
+              {!isPending && <BellIcon />}
+              Notify Me
+            </Button>
+          )}
         </div>
       </div>
     </article>
