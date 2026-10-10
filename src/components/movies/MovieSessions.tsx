@@ -130,28 +130,32 @@ function SessionTile({ session, disabled, onSelect }: SessionTileProps) {
       onClick={() => onSelect(session)}
       aria-label={`${session.time}, hall ${session.hall.name}, ${session.format.name}, ${session.language.name}${session.isSoldOut ? ', sold out' : ''}`}
       className={clsx(
-        'flex h-[82px] w-[200px] items-stretch rounded-xl bg-page/70 text-left transition-colors',
-        inactive ? 'cursor-not-allowed opacity-45' : 'hover:bg-surface-3',
+        'relative flex h-[81px] w-[207px] items-stretch rounded-xl bg-page text-left transition-colors',
+        'before:absolute before:-top-[7px] before:left-[117px] before:size-3.5 before:rounded-full before:bg-surface',
+        'after:absolute after:-bottom-[7px] after:left-[117px] after:size-3.5 after:rounded-full after:bg-surface',
+        inactive ? 'cursor-not-allowed opacity-45' : 'hover:bg-[#0d1328]',
       )}
     >
-      <span className="flex flex-1 flex-col items-center justify-center gap-1.5">
-        <span className="text-base font-extrabold">{session.time}</span>
-        <span className="flex items-center gap-1.5 text-[11px]">
+      <span className="flex w-[124px] flex-col items-center justify-center gap-1.5">
+        <span className="text-xl leading-6 font-extrabold">{session.time}</span>
+        <span className="flex items-center gap-2 text-[13px]">
           <span className="text-muted" title={session.language.name}>
             {session.language.code}
           </span>
-          <span className="rounded bg-surface-3 px-1.5 py-0.5 font-semibold">{session.format.name}</span>
+          <span className="flex h-[21px] items-center rounded-full bg-surface px-2.5 text-[11px] font-extrabold uppercase">
+            {session.format.name}
+          </span>
         </span>
       </span>
-      <span className="my-3 border-l border-dashed border-line" />
-      <span className="flex w-[76px] flex-col items-center justify-center gap-1.5">
-        <span className="text-base font-extrabold text-primary">{formatPrice(session.price)}</span>
-        <span className="flex items-center gap-1 text-[11px] text-muted">
+      <span className="absolute top-[11px] left-[124px] h-[59px] border-l-[1.5px] border-dashed border-white" />
+      <span className="flex flex-1 flex-col items-center justify-center gap-1.5">
+        <span className="text-lg leading-6 font-extrabold text-primary">{formatPrice(session.price)}</span>
+        <span className="flex items-center gap-1.5 text-xs text-muted">
           {session.isSoldOut ? (
             'Sold out'
           ) : (
             <>
-              <TicketIcon className="size-3" />
+              <TicketIcon className="size-3.5" />
               {session.seatsLeft} left
             </>
           )}
