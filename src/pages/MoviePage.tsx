@@ -87,11 +87,9 @@ function MovieHero({ movie }: { movie: MovieDetail }) {
           className="h-[374px] w-[288px] shrink-0 rounded-2xl shadow-2xl shadow-black/50"
         />
         <div className="max-w-[600px] pb-2">
-          {movie.genres.length > 0 && (
-            <span className="inline-flex h-6 items-center rounded-full bg-primary/15 px-2.5 text-[11px] font-extrabold tracking-wide text-primary uppercase">
-              {movie.genres.map((genre) => genre.name).join(' · ')}
-            </span>
-          )}
+          <span className="inline-flex h-[22px] items-center rounded-full bg-primary/10 px-2.5 text-[11px] font-extrabold tracking-wide text-primary uppercase">
+            Now Playing
+          </span>
           <h1 className="mt-4 text-[40px] leading-[1.1] font-extrabold">{movie.title}</h1>
           <p className="mt-4 line-clamp-3 text-sm leading-[1.5] text-white/80">{movie.synopsis}</p>
           <div className="mt-5 flex flex-wrap items-center gap-2">

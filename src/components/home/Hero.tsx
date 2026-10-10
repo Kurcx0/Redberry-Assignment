@@ -4,7 +4,6 @@ import dayjs from 'dayjs'
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router'
 import { getFeaturedMovies } from '@/api/movies'
-import type { Movie } from '@/api/types'
 import { ChevronLeftIcon, ChevronRightIcon, TicketIcon } from '@/components/icons'
 import { AgeBadge, Pill, RuntimePill } from '@/components/movies/Badges'
 import { buttonClasses } from '@/components/ui/Button'
@@ -13,12 +12,10 @@ import Skeleton from '@/components/ui/Skeleton'
 
 const SLIDE_DURATION = 7000
 
-function releaseLabel(movie: Movie) {
-  const release = dayjs(movie.releaseDate)
-  if (release.isAfter(dayjs().subtract(3, 'week'))) {
-    return `Premiere · Week of ${release.format('D MMM')}`
-  }
-  return 'Now showing'
+function premiereLabel() {
+  const now = dayjs()
+  const monday = now.subtract((now.day() + 6) % 7, 'day')
+  return `Premiere · Week of ${monday.format('D MMM')}`
 }
 
 export default function Hero() {
@@ -76,12 +73,13 @@ export default function Hero() {
           )}
         />
       ))}
+      <div className="absolute inset-0 bg-black/20" />
       <div className="absolute inset-0 bg-gradient-to-r from-page/95 via-page/55 to-page/0" />
       <div className="absolute inset-x-0 bottom-0 h-64 bg-gradient-to-t from-page to-transparent" />
 
       <div key={movie.id} className="absolute bottom-[150px] left-[68px] w-[580px] animate-pop-in">
-        <span className="inline-flex h-6 items-center rounded-full bg-primary/15 px-2.5 text-[11px] font-extrabold tracking-wide text-primary uppercase">
-          {releaseLabel(movie)}
+        <span className="inline-flex h-[22px] items-center rounded-full bg-primary/10 px-2.5 text-[11px] font-extrabold tracking-wide text-primary uppercase">
+          {premiereLabel()}
         </span>
         <h1 className="mt-4 text-[44px] leading-[1.1] font-extrabold">{movie.title}</h1>
         <div className="mt-4 flex flex-wrap items-center gap-2">
@@ -135,7 +133,7 @@ export default function Hero() {
               type="button"
               onClick={() => setActive((active - 1 + count) % count)}
               aria-label="Previous film"
-              className="flex size-10 items-center justify-center rounded-full bg-white/12 backdrop-blur-md transition-colors hover:bg-white/25"
+              className="flex size-10 items-center justify-center rounded-full bg-black/40 backdrop-blur-md transition-colors hover:bg-black/60"
             >
               <ChevronLeftIcon className="size-5" />
             </button>
@@ -143,7 +141,7 @@ export default function Hero() {
               type="button"
               onClick={() => setActive((active + 1) % count)}
               aria-label="Next film"
-              className="flex size-10 items-center justify-center rounded-full bg-white/12 backdrop-blur-md transition-colors hover:bg-white/25"
+              className="flex size-10 items-center justify-center rounded-full bg-black/40 backdrop-blur-md transition-colors hover:bg-black/60"
             >
               <ChevronRightIcon className="size-5" />
             </button>
