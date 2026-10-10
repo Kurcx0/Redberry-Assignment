@@ -62,10 +62,19 @@ export default function Modal({
     if (!open || positioned) return
     const container = containerRef.current
     const panel = panelRef.current
-    if (container && panel) {
-      setOffset(Math.max(24, Math.round((container.clientHeight - panel.offsetHeight) / 2)))
+    if (!container || !panel) return
+
+    setOffset(Math.max(24, Math.round((container.clientHeight - panel.offsetHeight) / 2)))
+    const observer = new ResizeObserver(() => {
+      const fits = Math.max(24, container.clientHeight - panel.offsetHeight - 24)
+      setOffset((current) => (current === null ? current : Math.min(current, fits)))
+    })
+    observer.observe(panel)
+    observer.observe(container)
+    return () => {
+      observer.disconnect()
+      setOffset(null)
     }
-    return () => setOffset(null)
   }, [open, positioned])
 
   if (!open) return null
@@ -74,7 +83,7 @@ export default function Modal({
     <div ref={containerRef} className="fixed inset-0 z-50 overflow-y-auto">
       <div className="fixed inset-0 animate-fade-in bg-[#02040b]/65 backdrop-blur-[6px]" aria-hidden />
       <div
-        className={clsx('relative min-h-full', !position && 'flex justify-center px-6 pb-6')}
+        className={clsx('relative min-h-full', !position && 'flex items-start justify-center px-6 pb-6')}
         style={position ? undefined : { paddingTop: offset ?? 24 }}
         onMouseDown={(event) => {
           if (event.target === event.currentTarget) onClose()
