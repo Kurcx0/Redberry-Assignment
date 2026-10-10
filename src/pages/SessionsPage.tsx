@@ -62,7 +62,7 @@ export default function SessionsPage() {
   const loading = !query || sessions.isPending
 
   return (
-    <section className="px-[52px] pt-6 pb-24">
+    <section className="px-[52px] pt-4 pb-24">
       <h1 className="text-[28px] font-extrabold">Sessions</h1>
       <p className="mt-1.5 text-sm text-muted">Browse showtimes across all venues</p>
 

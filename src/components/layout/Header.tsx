@@ -16,31 +16,33 @@ export default function Header({ overlay }: { overlay: boolean }) {
   return (
     <header
       className={clsx(
-        'inset-x-0 top-0 z-30 flex h-24 items-center px-[60px]',
-        overlay ? 'absolute bg-gradient-to-b from-black/60 to-transparent' : 'relative',
+        'inset-x-0 top-0 z-30 flex h-[111px] items-start bg-[linear-gradient(180deg,rgb(0_0_0/0.57)_0px,rgb(0_0_0/0.51)_36px,transparent_104px)] px-[60px] pt-[30px]',
+        overlay ? 'absolute' : 'relative',
       )}
     >
-      <Logo />
+      <div className="flex h-[41px] items-center">
+        <Logo />
+        <nav className="ml-9">
+          <NavLink
+            to="/sessions"
+            className={({ isActive }) =>
+              clsx(
+                'text-xs font-semibold tracking-[0.08em] uppercase transition-colors hover:text-white',
+                isActive ? 'text-white' : 'text-white/85',
+              )
+            }
+          >
+            Sessions
+          </NavLink>
+        </nav>
+      </div>
 
-      <nav className="ml-16">
-        <NavLink
-          to="/sessions"
-          className={({ isActive }) =>
-            clsx(
-              'text-sm font-semibold tracking-wide uppercase transition-colors hover:text-white',
-              isActive ? 'text-white' : 'text-white/85',
-            )
-          }
-        >
-          Sessions
-        </NavLink>
-      </nav>
-
-      <div className="ml-auto flex items-center gap-8">
+      <div className="ml-auto flex h-[41px] items-center gap-8">
         <button
           type="button"
           onClick={openSearch}
-          className="flex h-[38px] w-[380px] items-center gap-2.5 rounded-full border border-white/10 bg-white/8 px-4 text-left text-[13px] text-white/60 backdrop-blur-md transition-colors hover:border-white/25"
+          data-search-anchor
+          className="flex h-[41px] w-[380px] items-center gap-2 rounded-full bg-white/10 px-4 text-left text-[13px] text-white transition-colors hover:bg-white/15"
         >
           <SearchIcon />
           Search films and live events
@@ -50,10 +52,10 @@ export default function Header({ overlay }: { overlay: boolean }) {
           <UserMenu user={user} />
         ) : (
           <div className={clsx('flex items-center gap-3', isLoading && 'invisible')}>
-            <Button onClick={() => openAuth('register')} className="w-24">
+            <Button onClick={() => openAuth('register')}>
               Sign up
             </Button>
-            <Button variant="light" onClick={() => openAuth('login')} className="w-[86px]">
+            <Button variant="light" onClick={() => openAuth('login')}>
               Log in
             </Button>
           </div>

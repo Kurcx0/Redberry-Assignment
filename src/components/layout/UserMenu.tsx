@@ -1,45 +1,44 @@
 import clsx from 'clsx'
-import { useEffect, useRef, useState } from 'react'
+import { useCallback, useRef, useState } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router'
 import { logout } from '@/api/auth'
 import type { User } from '@/api/types'
 import { CheckIcon, ChevronDownIcon, LogOutIcon, TicketIcon, UserIcon } from '@/components/icons'
 import Avatar from '@/components/ui/Avatar'
+import { useClickOutside } from '@/hooks/useClickOutside'
 import { clearSession } from '@/lib/auth'
+
+function StatusAvatar({ user }: { user: User }) {
+  return (
+    <span className="relative shrink-0">
+      <Avatar user={user} />
+      <span
+        className={clsx(
+          'absolute right-0 bottom-0 size-2 rounded-full ring-1 ring-page',
+          user.profileComplete ? 'bg-success' : 'bg-warning',
+        )}
+      />
+    </span>
+  )
+}
+
+const itemClasses = 'flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm transition-colors'
 
 export default function UserMenu({ user }: { user: User }) {
   const [open, setOpen] = useState(false)
   const containerRef = useRef<HTMLDivElement>(null)
   const navigate = useNavigate()
   const { pathname } = useLocation()
+  const close = useCallback(() => setOpen(false), [])
 
-  useEffect(() => {
-    if (!open) return
-
-    function handleClick(event: MouseEvent) {
-      if (!containerRef.current?.contains(event.target as Node)) setOpen(false)
-    }
-
-    function handleKey(event: KeyboardEvent) {
-      if (event.key === 'Escape') setOpen(false)
-    }
-
-    document.addEventListener('mousedown', handleClick)
-    document.addEventListener('keydown', handleKey)
-    return () => {
-      document.removeEventListener('mousedown', handleClick)
-      document.removeEventListener('keydown', handleKey)
-    }
-  }, [open])
+  useClickOutside(containerRef, open, close)
 
   async function handleLogout() {
-    setOpen(false)
+    close()
     await logout().catch(() => undefined)
     clearSession()
     if (pathname.startsWith('/profile')) navigate('/')
   }
-
-  const firstName = (user.fullName || user.username).split(' ')[0]
 
   return (
     <div ref={containerRef} className="relative">
@@ -48,28 +47,22 @@ export default function UserMenu({ user }: { user: User }) {
         onClick={() => setOpen((value) => !value)}
         aria-expanded={open}
         aria-haspopup="menu"
-        className="flex items-center gap-2.5 rounded-full py-1 pr-2 pl-1 transition-colors hover:bg-white/8"
+        className="flex items-center gap-3"
       >
-        <span className="relative">
-          <Avatar user={user} />
-          <span
-            className={clsx(
-              'absolute -top-0.5 -right-0.5 size-3 rounded-full border-2 border-page',
-              user.profileComplete ? 'bg-success' : 'bg-warning',
-            )}
-          />
+        <StatusAvatar user={user} />
+        <span className="max-w-[140px] truncate text-sm font-semibold" title={user.username}>
+          {user.username}
         </span>
-        <span className="text-sm font-semibold">{firstName}</span>
-        <ChevronDownIcon className={clsx('size-4 text-muted transition-transform', open && 'rotate-180')} />
+        <ChevronDownIcon className={clsx('ml-3 transition-transform', open && 'rotate-180')} />
       </button>
 
       {open && (
         <div
           role="menu"
-          className="absolute top-full right-0 z-40 mt-3 w-[300px] rounded-2xl border border-line bg-[#080c18] p-2 shadow-2xl shadow-black/50"
+          className="absolute top-full right-0 z-40 mt-4 w-[300px] rounded-2xl border border-line bg-page p-2 shadow-2xl shadow-black/50"
         >
           <div className="flex items-center gap-3 px-3 py-3">
-            <Avatar user={user} className="size-10" />
+            <StatusAvatar user={user} />
             <div className="min-w-0">
               <p className="truncate text-sm font-semibold">{user.fullName || user.username}</p>
               <p className="truncate text-xs text-muted">{user.email}</p>
@@ -84,32 +77,25 @@ export default function UserMenu({ user }: { user: User }) {
           ) : (
             <Link
               to="/profile"
-              onClick={() => setOpen(false)}
+              onClick={close}
               className="mx-1 mb-2 block rounded-xl bg-warning/10 px-3 py-2.5 transition-colors hover:bg-warning/15"
             >
               <span className="block text-sm font-semibold text-warning">Profile incomplete</span>
-              <span className="block text-xs text-warning/80">
-                Please complete your profile to enable booking.
-              </span>
+              <span className="block text-xs text-warning/80">Please complete your profile to enable booking.</span>
             </Link>
           )}
 
-          <Link
-            to="/profile"
-            role="menuitem"
-            onClick={() => setOpen(false)}
-            className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm transition-colors hover:bg-white/6"
-          >
-            <UserIcon className="size-4 text-muted" />
+          <Link to="/profile" role="menuitem" onClick={close} className={clsx(itemClasses, 'hover:bg-surface')}>
+            <UserIcon className="text-muted" />
             My Profile
           </Link>
           <Link
             to="/profile?tab=tickets"
             role="menuitem"
-            onClick={() => setOpen(false)}
-            className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm transition-colors hover:bg-white/6"
+            onClick={close}
+            className={clsx(itemClasses, 'hover:bg-surface')}
           >
-            <TicketIcon className="size-4 text-muted" />
+            <TicketIcon className="text-muted" />
             My Tickets
           </Link>
 
@@ -119,7 +105,7 @@ export default function UserMenu({ user }: { user: User }) {
             type="button"
             role="menuitem"
             onClick={handleLogout}
-            className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm text-primary transition-colors hover:bg-primary/10"
+            className={clsx(itemClasses, 'text-primary hover:bg-primary/10')}
           >
             <LogOutIcon />
             Log out

@@ -23,7 +23,7 @@ export default function Avatar({ user, className }: AvatarProps) {
       <img
         src={user.avatar}
         alt={name}
-        className={clsx('shrink-0 rounded-full object-cover', className ?? 'size-9')}
+        className={clsx('shrink-0 rounded-lg object-cover', className ?? 'size-10')}
       />
     )
   }
@@ -32,8 +32,8 @@ export default function Avatar({ user, className }: AvatarProps) {
     <span
       aria-hidden
       className={clsx(
-        'flex shrink-0 items-center justify-center rounded-full bg-surface-3 text-xs font-extrabold text-white',
-        className ?? 'size-9',
+        'flex shrink-0 items-center justify-center rounded-lg bg-surface text-xs font-extrabold text-white',
+        className ?? 'size-10',
       )}
     >
       {initials(name)}

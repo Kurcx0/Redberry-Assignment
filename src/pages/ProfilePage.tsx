@@ -21,7 +21,7 @@ export default function ProfilePage() {
   }, [token, navigate])
 
   return (
-    <section className="px-[52px] pt-6 pb-24">
+    <section className="px-[52px] pt-4 pb-24">
       <h1 className="text-[28px] font-extrabold">My Profile</h1>
       {token ? (
         <ProfileContent />
