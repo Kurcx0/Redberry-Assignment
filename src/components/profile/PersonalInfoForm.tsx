@@ -56,7 +56,11 @@ export default function PersonalInfoForm({ user }: { user: User }) {
     onSuccess: (updated) => {
       queryClient.setQueryData(['me'], updated)
       reset(toFormValues(updated))
-      toast.success(updated.profileComplete ? 'Your profile is complete. Happy booking!' : 'Profile saved.')
+      toast.success(
+        updated.profileComplete && !user.profileComplete
+          ? 'Your profile is complete. Happy booking!'
+          : 'Your changes have been saved.',
+      )
     },
     onError: (error) => {
       if (!applyServerErrors(error, setError) && error instanceof ApiError) toast.error(error.message)
