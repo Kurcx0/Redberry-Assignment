@@ -14,7 +14,7 @@ export default function Layout() {
   const overlay = overlayRoutes.some((pattern) => matchPath(pattern, pathname))
 
   return (
-    <div className="mx-auto flex min-h-screen max-w-[1920px] min-w-[1280px] flex-col">
+    <div className="mx-auto flex min-h-viewport max-w-[1920px] min-w-[1280px] flex-col">
       <Header overlay={overlay} />
       <main className="flex-1">
         <Outlet />

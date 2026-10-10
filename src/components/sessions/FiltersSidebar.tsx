@@ -72,7 +72,7 @@ export default function FiltersSidebar({
   }
 
   return (
-    <aside className="sticky top-6 flex max-h-[calc(100vh-48px)] w-[318px] shrink-0 flex-col self-start rounded-2xl bg-surface">
+    <aside className="sticky top-6 flex max-h-[calc(100vh/var(--app-zoom,1)-48px)] w-[318px] shrink-0 flex-col self-start rounded-2xl bg-surface">
       <div className="thin-scrollbar flex-1 space-y-5 overflow-y-auto p-5 pb-4">
         <h2 className="text-lg font-bold">Filters</h2>
 

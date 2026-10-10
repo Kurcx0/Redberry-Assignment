@@ -54,16 +54,22 @@
 @layer base {
   html {
     color-scheme: dark;
+    scrollbar-gutter: stable;
   }
 
   body {
     @apply bg-page font-sans text-white antialiased;
+    zoom: var(--app-zoom, 1);
   }
 
   button:not(:disabled),
   [role='button']:not(:disabled) {
     cursor: pointer;
   }
+}
+
+@utility min-h-viewport {
+  min-height: calc(100vh / var(--app-zoom, 1));
 }
 
 @layer utilities {
