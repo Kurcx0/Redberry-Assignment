@@ -24,6 +24,11 @@ export async function holdSeats(sessionId: number, seats: HoldSeat[]) {
   return response.data
 }
 
+export async function getHold(holdId: string) {
+  const response = await request<{ data: SeatHold }>(`/holds/${holdId}`)
+  return response.data
+}
+
 export function releaseHold(holdId: string) {
   return request<void>(`/holds/${holdId}`, { method: 'DELETE', replayOnUnauthorized: false })
 }

@@ -2,7 +2,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import clsx from 'clsx'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useNavigate } from 'react-router'
-import { holdSeats, releaseHold } from '@/api/booking'
+import { getHold, holdSeats, releaseHold } from '@/api/booking'
 import { ApiError } from '@/api/client'
 import { getSeatMap, getSession } from '@/api/sessions'
 import type { Order, Seat, SeatHold, Session, TicketTypeSlug } from '@/api/types'
@@ -15,6 +15,7 @@ import { useFilterOptions } from '@/hooks/useFilterOptions'
 import { useHoldCountdown } from '@/hooks/useHoldCountdown'
 import { useMe } from '@/hooks/useMe'
 import { formatLongDate } from '@/lib/format'
+import { forgetHold, getStoredHold, saveHold } from '@/lib/holdStorage'
 import { useBookingStore } from '@/stores/booking'
 import Checkout from './Checkout'
 import Confirmation from './Confirmation'
@@ -52,6 +53,7 @@ function BookingFlow({ sessionId }: { sessionId: number }) {
   const [order, setOrder] = useState<Order | null>(null)
   const [notice, setNotice] = useState<Notice | null>(null)
   const [restored, setRestored] = useState(false)
+  const [storedHoldId] = useState(() => getStoredHold(sessionId))
   const [bodyHeight, setBodyHeight] = useState(0)
   const bodyRef = useRef<HTMLDivElement>(null)
 
@@ -74,14 +76,44 @@ function BookingFlow({ sessionId }: { sessionId: number }) {
     staleTime: 0,
     refetchOnMount: 'always',
   })
+  const storedHoldQuery = useQuery({
+    queryKey: ['hold', storedHoldId],
+    queryFn: () => getHold(storedHoldId!),
+    enabled: !!storedHoldId && !!user,
+    retry: false,
+    staleTime: 0,
+  })
 
   const session = sessionQuery.data
   const maxSeats = options?.maxSeatsPerOrder ?? 3
   const ticketTypes = useMemo(() => options?.ticketTypes ?? [], [options])
+  const storedHoldSettled = !storedHoldId || !user || storedHoldQuery.isSuccess || storedHoldQuery.isError
 
   useEffect(() => {
-    if (restored || !mapQuery.data) return
+    if (restored || !mapQuery.data || !storedHoldSettled) return
     setRestored(true)
+
+    const sections = new Map(
+      mapQuery.data.sections.flatMap((section) =>
+        section.rows.flatMap((row) => row.seats.map((seat) => [seat.id, section.name] as const)),
+      ),
+    )
+    const stored = storedHoldQuery.data
+    if (stored?.isLive && stored.secondsRemaining > 0) {
+      setHold(stored)
+      setSelected(
+        stored.seats.map((seat) => ({
+          id: seat.seatId,
+          code: seat.code,
+          section: sections.get(seat.seatId) ?? '',
+          ticketType: seat.ticketType.slug,
+        })),
+      )
+      goTo('checkout')
+      return
+    }
+
+    if (storedHoldId) forgetHold(sessionId)
     const mine = mapQuery.data.sections.flatMap((section) =>
       section.rows.flatMap((row) =>
         row.seats
@@ -90,7 +122,13 @@ function BookingFlow({ sessionId }: { sessionId: number }) {
       ),
     )
     if (mine.length) setSelected(mine.slice(0, maxSeats))
-  }, [restored, mapQuery.data, maxSeats])
+  }, [restored, mapQuery.data, storedHoldSettled, storedHoldQuery.data, storedHoldId, sessionId, maxSeats, goTo])
+
+  useEffect(() => {
+    if (!restored) return
+    if (hold) saveHold(sessionId, hold.holdId)
+    else forgetHold(sessionId)
+  }, [hold, restored, sessionId])
 
   const refetchMap = useCallback(() => {
     queryClient.invalidateQueries({ queryKey: ['seats', sessionId] })
@@ -163,6 +201,7 @@ function BookingFlow({ sessionId }: { sessionId: number }) {
   function close() {
     if (hold && !order) {
       releaseHold(hold.holdId).catch(() => undefined)
+      forgetHold(sessionId)
     }
     closeBooking()
   }
