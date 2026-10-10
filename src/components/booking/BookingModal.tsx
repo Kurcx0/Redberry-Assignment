@@ -202,7 +202,10 @@ function BookingFlow({ sessionId }: { sessionId: number }) {
       {step === 'done' && order ? (
         <Confirmation
           order={order}
-          onClose={closeBooking}
+          onBackHome={() => {
+            closeBooking()
+            navigate('/')
+          }}
           onViewTickets={() => {
             closeBooking()
             navigate('/profile?tab=tickets')

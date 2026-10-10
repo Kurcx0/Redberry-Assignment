@@ -7,10 +7,18 @@ import { formatPrice, formatShortDate } from '@/lib/format'
 type ConfirmationProps = {
   order: Order
   onViewTickets: () => void
-  onClose: () => void
+  onBackHome: () => void
 }
 
-export default function Confirmation({ order, onViewTickets, onClose }: ConfirmationProps) {
+function ticketBreakdown(order: Order) {
+  const counts = new Map<string, number>()
+  order.tickets.forEach((ticket) =>
+    counts.set(ticket.ticketType.name, (counts.get(ticket.ticketType.name) ?? 0) + 1),
+  )
+  return [...counts.entries()].map(([name, count]) => `${count} x ${name}`).join(', ')
+}
+
+export default function Confirmation({ order, onViewTickets, onBackHome }: ConfirmationProps) {
   const { session } = order
 
   return (
@@ -32,24 +40,21 @@ export default function Confirmation({ order, onViewTickets, onClose }: Confirma
         <div className="flex items-center gap-4">
           <Poster src={session.movie.posterUrl} alt="" className="h-[68px] w-12 shrink-0 rounded-md" />
           <div className="min-w-0">
-            <p className="truncate font-extrabold">{session.movie.title}</p>
+            <p className="truncate font-extrabold uppercase">{session.movie.title}</p>
             <p className="mt-1 text-xs text-muted">
               {session.venue.name} · Hall {session.hall.name} · {formatShortDate(session.date)} · {session.time}
-            </p>
-            <p className="mt-0.5 text-xs text-muted">
-              {session.format.name} · {session.language.name}
             </p>
           </div>
         </div>
         <dl className="mt-5 space-y-2.5 border-t border-line pt-4 text-sm">
-          {order.tickets.map((ticket) => (
-            <div key={ticket.id} className="flex justify-between">
-              <dt className="text-muted">
-                Seat <span className="font-semibold text-white">{ticket.seatCode}</span> · {ticket.ticketType.name}
-              </dt>
-              <dd className="font-semibold">{formatPrice(ticket.price)}</dd>
-            </div>
-          ))}
+          <div className="flex justify-between gap-4">
+            <dt className="text-muted">Seats</dt>
+            <dd className="font-extrabold">{order.tickets.map((ticket) => ticket.seatCode).join(', ')}</dd>
+          </div>
+          <div className="flex justify-between gap-4">
+            <dt className="text-muted">Tickets</dt>
+            <dd>{ticketBreakdown(order)}</dd>
+          </div>
           <div className="flex items-center justify-between border-t border-line pt-3">
             <dt className="text-xs font-semibold tracking-[0.08em] text-muted uppercase">Total paid</dt>
             <dd className="text-xl font-extrabold">{formatPrice(order.totalPrice)}</dd>
@@ -59,8 +64,8 @@ export default function Confirmation({ order, onViewTickets, onClose }: Confirma
 
       <div className="mt-8 flex gap-3">
         <Button onClick={onViewTickets}>View my tickets</Button>
-        <Button variant="secondary" onClick={onClose}>
-          Close
+        <Button variant="dark" onClick={onBackHome}>
+          Back to home
         </Button>
       </div>
     </div>
