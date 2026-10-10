@@ -54,9 +54,9 @@ export function useSessionFilters() {
   }, [params])
 
   const update = useCallback(
-    (changes: Partial<SessionFilters>) => {
+    (changes: Partial<SessionFilters>, options?: { replace?: boolean }) => {
       const next = { ...filters, page: 1, ...changes }
-      navigate({ pathname, search: toQueryString(next) })
+      navigate({ pathname, search: toQueryString(next) }, { replace: options?.replace })
     },
     [filters, navigate, pathname],
   )

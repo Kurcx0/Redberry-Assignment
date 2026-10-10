@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query'
 import { CalendarX2 } from 'lucide-react'
-import { useCallback, useMemo } from 'react'
+import { useCallback, useEffect, useMemo } from 'react'
 import { getSessions, type SessionsQuery } from '@/api/sessions'
 import FiltersSidebar from '@/components/sessions/FiltersSidebar'
 import SessionGroup, { SessionGroupSkeleton } from '@/components/sessions/SessionGroup'
@@ -43,6 +43,12 @@ export default function SessionsPage() {
     queryFn: () => getSessions(query!),
     enabled: !!query,
   })
+
+  const lastPage = sessions.data?.meta.lastPage ?? 0
+
+  useEffect(() => {
+    if (lastPage > 0 && filters.page > lastPage) update({ page: lastPage }, { replace: true })
+  }, [lastPage, filters.page, update])
 
   const handleSearch = useCallback((search: string) => update({ search }), [update])
 
