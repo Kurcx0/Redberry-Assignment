@@ -130,18 +130,18 @@ export default function FiltersSidebar({
         </FilterGroup>
       </div>
 
-      <div className="flex items-center justify-between border-t border-line px-5 py-4">
-        <span className="text-[13px] text-muted">
-          {activeCount} {activeCount === 1 ? 'filter' : 'filters'} active
-        </span>
+      <div className="border-t border-line px-5 pt-4 pb-3">
         <button
           type="button"
           onClick={onClear}
           disabled={activeCount === 0}
-          className="text-[13px] font-semibold text-primary transition-opacity hover:underline disabled:cursor-not-allowed disabled:text-dim disabled:no-underline"
+          className="flex h-9 w-full items-center justify-center rounded-full border border-muted text-[13px] font-semibold transition-colors hover:bg-white/10 disabled:cursor-not-allowed disabled:border-dim disabled:text-dim disabled:hover:bg-transparent"
         >
-          Clear All Filters
+          Clear filters
         </button>
+        <p className="mt-2.5 text-center text-xs text-muted" aria-live="polite">
+          {activeCount} {activeCount === 1 ? 'filter' : 'filters'} active
+        </p>
       </div>
     </aside>
   )

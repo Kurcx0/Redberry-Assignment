@@ -123,7 +123,7 @@ export default function SessionsPage() {
                 action={
                   activeCount > 0 && (
                     <Button variant="secondary" onClick={clear}>
-                      Clear All Filters
+                      Clear filters
                     </Button>
                   )
                 }
