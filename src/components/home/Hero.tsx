@@ -95,11 +95,11 @@ export default function Hero() {
           <p className="mt-5 line-clamp-3 text-base leading-[1.4] text-white/85">{movie.synopsis}</p>
         )}
         <div className="mt-6 flex gap-3">
-          <Link to={`/movies/${movie.slug}`} className={buttonClasses('primary', 'md')}>
+          <Link to={`/movies/${movie.slug}`} className={buttonClasses('primary', 'lg')}>
             <TicketIcon />
             Buy tickets
           </Link>
-          <Link to="/sessions" className={buttonClasses('glass', 'md')}>
+          <Link to="/sessions" className={buttonClasses('glass', 'lg')}>
             All sessions
           </Link>
         </div>

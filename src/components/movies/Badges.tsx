@@ -8,7 +8,7 @@ export function AgeBadge({ rating, className }: { rating: AgeRating; className?:
     <span
       title={rating.description}
       className={clsx(
-        'inline-flex h-6 shrink-0 items-center rounded-full bg-primary/15 px-2.5 text-xs font-semibold text-primary',
+        'inline-flex h-[22px] shrink-0 items-center rounded-full bg-primary/10 px-2.5 text-xs font-semibold text-primary',
         className,
       )}
     >
@@ -21,7 +21,7 @@ export function Pill({ children, className }: { children: ReactNode; className?:
   return (
     <span
       className={clsx(
-        'inline-flex h-6 shrink-0 items-center gap-1.5 rounded-full bg-white/12 px-3 text-xs font-semibold',
+        'inline-flex h-[22px] shrink-0 items-center gap-1.5 rounded-full bg-white/10 px-2.5 text-xs font-semibold',
         className,
       )}
     >

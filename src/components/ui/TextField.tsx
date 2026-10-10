@@ -25,13 +25,12 @@ export default function TextField({
   const generatedId = useId()
   const inputId = id ?? generatedId
   const messageId = `${inputId}-message`
-  const status = error ? 'error' : valid ? 'valid' : null
 
   return (
     <div className={className}>
       <label
         htmlFor={inputId}
-        className={clsx('mb-2 block text-[13px] font-semibold', error ? 'text-primary' : 'text-white')}
+        className={clsx('mb-2 block text-sm font-semibold', error ? 'text-primary' : 'text-white')}
       >
         {label}
       </label>
@@ -42,22 +41,26 @@ export default function TextField({
           aria-invalid={!!error}
           aria-describedby={error || hint ? messageId : undefined}
           className={clsx(
-            'h-10 w-full rounded-lg border bg-surface px-3.5 pr-10 text-[13px] text-white transition-colors outline-none placeholder:text-dim',
+            'h-10 w-full rounded-xl border bg-surface pr-11 pl-4 text-sm font-semibold transition-colors outline-none placeholder:text-muted',
             'disabled:cursor-not-allowed disabled:text-muted',
-            status === 'error' && 'border-primary',
-            status === 'valid' && 'border-success/60',
-            !status && 'border-transparent focus:border-white/25',
+            error
+              ? 'border-primary text-primary'
+              : 'border-transparent text-white enabled:hover:border-dim enabled:hover:bg-surface-2 focus:border-dim focus:bg-surface',
           )}
           {...props}
         />
-        <span className="pointer-events-none absolute top-1/2 right-3.5 flex -translate-y-1/2 items-center">
-          {status === 'error' && <ErrorIcon className="size-4 text-primary" />}
-          {status === 'valid' && <CheckIcon className="size-4 text-success" />}
-          {!status && icon}
+        <span className="pointer-events-none absolute top-1/2 right-4 flex -translate-y-1/2 items-center">
+          {error ? (
+            <ErrorIcon className="size-4 text-primary" />
+          ) : valid ? (
+            <CheckIcon className="size-4 text-success" />
+          ) : (
+            icon
+          )}
         </span>
       </div>
       {(error || hint) && (
-        <p id={messageId} className={clsx('mt-1.5 text-xs', error ? 'text-primary' : 'text-muted')}>
+        <p id={messageId} className={clsx('mt-2 text-sm font-semibold', error ? 'text-primary' : 'text-muted')}>
           {error || hint}
         </p>
       )}

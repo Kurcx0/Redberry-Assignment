@@ -94,7 +94,7 @@ function NowPlayingCard({ movie }: { movie: Movie }) {
           <span className="text-[13px] text-muted">
             from <span className="text-base font-bold text-white">{formatPrice(movie.fromPrice)}</span>
           </span>
-          <Link to={`/movies/${movie.slug}`} className={buttonClasses('primary', 'sm')}>
+          <Link to={`/movies/${movie.slug}`} className={buttonClasses('primary', 'md')}>
             Buy Ticket
           </Link>
         </div>

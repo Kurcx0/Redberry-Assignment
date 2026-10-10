@@ -4,18 +4,16 @@
 @theme {
   --font-sans: 'Archivo Variable', 'Archivo', system-ui, sans-serif;
 
-  --color-page: #060c1c;
-  --color-surface: #1e1f31;
-  --color-surface-2: #262739;
-  --color-surface-3: #31324a;
-  --color-line: #2e2f44;
-  --color-muted: #8f92a6;
-  --color-dim: #5f6278;
-  --color-primary: #e8331a;
-  --color-primary-hover: #ff4a2e;
+  --color-page: #070c1c;
+  --color-surface: #1e2031;
+  --color-surface-2: #2a2c3d;
+  --color-surface-3: #353748;
+  --color-line: #2a2c3d;
+  --color-muted: #a9a9a9;
+  --color-dim: #505261;
+  --color-primary: #ec3013;
   --color-success: #4ade80;
-  --color-warning: #f5a524;
-  --color-danger: #ff4d4f;
+  --color-warning: #e27e04;
 
   --animate-fade-in: fade-in 0.2s ease-out;
   --animate-pop-in: pop-in 0.25s cubic-bezier(0.16, 1, 0.3, 1);

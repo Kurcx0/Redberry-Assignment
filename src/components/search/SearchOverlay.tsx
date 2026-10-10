@@ -160,7 +160,7 @@ function Message({ icon, title, description, onBrowse }: MessageProps) {
       </span>
       <p className="mt-6 text-xl font-bold">{title}</p>
       <p className="mt-2 text-muted">{description}</p>
-      <Button variant="secondary" size="lg" className="mt-7 px-8" onClick={onBrowse}>
+      <Button variant="dark" className="mt-7 px-8" onClick={onBrowse}>
         Browse all sessions
       </Button>
     </div>

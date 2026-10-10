@@ -65,7 +65,7 @@ export default function TicketCard({ order, onRefund }: TicketCardProps) {
           <>
             <Button
               variant="secondary"
-              size="sm"
+              size="md"
               className="mt-3 w-full"
               disabled={!order.isRefundable}
               onClick={() => onRefund(order)}
