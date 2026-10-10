@@ -1,9 +1,9 @@
 import { useQuery } from '@tanstack/react-query'
 import clsx from 'clsx'
-import { Popcorn, Search, X } from 'lucide-react'
 import { useEffect, useState, type ReactNode } from 'react'
 import { Link, useNavigate } from 'react-router'
 import { searchMovies } from '@/api/movies'
+import { CloseIcon, PopcornIcon, SearchIcon } from '@/components/icons'
 import type { Movie } from '@/api/types'
 import Poster from '@/components/movies/Poster'
 import Button from '@/components/ui/Button'
@@ -71,7 +71,7 @@ function SearchPanel({ onClose }: { onClose: () => void }) {
   return (
     <>
       <div className="flex h-[60px] items-center gap-3 rounded-full border border-white/10 bg-[#161616] pr-2.5 pl-6 shadow-2xl shadow-black/60">
-        <Search className="size-5 shrink-0 text-muted" />
+        <SearchIcon className="size-5 text-muted" />
         <input
           autoFocus
           value={text}
@@ -86,14 +86,14 @@ function SearchPanel({ onClose }: { onClose: () => void }) {
           aria-label="Close search"
           className="flex size-10 items-center justify-center rounded-full bg-white/10 transition-colors hover:bg-white/20"
         >
-          <X className="size-5" />
+          <CloseIcon className="size-5" />
         </button>
       </div>
 
       <div className="mt-3 overflow-hidden rounded-3xl border border-white/10 bg-[#070c1c] shadow-2xl shadow-black/60">
         {!text.trim() && (
           <Message
-            icon={<Popcorn className="size-7" />}
+            icon={<PopcornIcon className="size-7" />}
             title="What do you want to watch?"
             description="Search by title, director or cast"
             onBrowse={browseSessions}
@@ -118,7 +118,7 @@ function SearchPanel({ onClose }: { onClose: () => void }) {
 
         {!loading && !isError && data && query && data.length === 0 && (
           <Message
-            icon={<Search className="size-7" />}
+            icon={<SearchIcon className="size-7" />}
             title={`No results for “${query}”`}
             description="Check the spelling or try another film or live event."
             onBrowse={browseSessions}

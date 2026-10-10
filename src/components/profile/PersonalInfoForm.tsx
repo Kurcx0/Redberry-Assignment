@@ -2,11 +2,11 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import clsx from 'clsx'
 import dayjs from 'dayjs'
-import { CalendarDays, Check, ChevronDown, TriangleAlert } from 'lucide-react'
 import { useForm } from 'react-hook-form'
 import { updateProfile } from '@/api/auth'
 import { ApiError } from '@/api/client'
 import type { User } from '@/api/types'
+import { CalendarIcon, CheckIcon, ChevronDownIcon, ErrorIcon } from '@/components/icons'
 import Button from '@/components/ui/Button'
 import TextField from '@/components/ui/TextField'
 import { useFilterOptions } from '@/hooks/useFilterOptions'
@@ -77,11 +77,11 @@ export default function PersonalInfoForm({ user }: { user: User }) {
       {user.profileComplete ? (
         <div className="mb-8 inline-flex items-center gap-2 rounded-full bg-success/10 px-4 py-2 text-sm font-semibold text-success">
           Profile Complete
-          <Check className="size-4" />
+          <CheckIcon className="size-4" />
         </div>
       ) : (
         <div role="status" className="mb-8 flex items-start gap-3 rounded-xl border border-warning/30 bg-warning/10 p-4 text-sm text-warning">
-          <TriangleAlert className="mt-0.5 size-4 shrink-0" />
+          <ErrorIcon className="mt-0.5 size-4" />
           <div>
             <p className="font-semibold">Please complete your profile to enable booking.</p>
             <p className="mt-0.5 text-warning/80">Full name, mobile number and date of birth are required to buy tickets.</p>
@@ -111,7 +111,7 @@ export default function PersonalInfoForm({ user }: { user: User }) {
             label="Date of birth"
             type="date"
             max={dayjs().format('YYYY-MM-DD')}
-            icon={<CalendarDays className="size-4 text-muted" />}
+            icon={<CalendarIcon className="size-4 text-muted" />}
             className="[&_input::-webkit-calendar-picker-indicator]:opacity-0"
             {...fieldState('dateOfBirth')}
             {...register('dateOfBirth')}
@@ -139,7 +139,7 @@ export default function PersonalInfoForm({ user }: { user: User }) {
                 </option>
               ))}
             </select>
-            <ChevronDown className="pointer-events-none absolute top-1/2 right-3.5 size-4 -translate-y-1/2 text-muted" />
+            <ChevronDownIcon className="pointer-events-none absolute top-1/2 right-3.5 size-4 -translate-y-1/2 text-muted" />
           </div>
         </div>
 

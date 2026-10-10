@@ -1,10 +1,10 @@
 import { useQuery } from '@tanstack/react-query'
-import { Bell, BellRing, CalendarClock, Film } from 'lucide-react'
 import { useEffect, type ReactNode } from 'react'
 import { Link, useParams, useSearchParams } from 'react-router'
 import { ApiError } from '@/api/client'
 import { getMovie } from '@/api/movies'
 import type { MovieDetail } from '@/api/types'
+import { BellIcon, CalendarIcon, CheckIcon, SearchIcon } from '@/components/icons'
 import { AgeBadge, Pill, RuntimePill } from '@/components/movies/Badges'
 import MovieSessions from '@/components/movies/MovieSessions'
 import Poster from '@/components/movies/Poster'
@@ -43,7 +43,7 @@ export default function MoviePage() {
     if (error instanceof ApiError && error.status === 404) {
       return (
         <EmptyState
-          icon={Film}
+          icon={<SearchIcon />}
           title="Film not found"
           description="This title does not exist or is no longer available."
           action={
@@ -133,7 +133,7 @@ function SessionsSection({ movie }: { movie: MovieDetail }) {
       <div className="mt-8">
         {available.length === 0 ? (
           <EmptyState
-            icon={CalendarClock}
+            icon={<CalendarIcon />}
             title="No upcoming sessions"
             description="This film has no showtimes scheduled for the next 7 days."
             className="rounded-2xl bg-surface/50"
@@ -157,7 +157,7 @@ function ComingSoonNotice({ movie }: { movie: MovieDetail }) {
         Sessions for this title are not on sale yet. Get notified as soon as tickets become available.
       </p>
       <Button className="mt-6" onClick={notify} loading={isPending} disabled={isNotified} variant={isNotified ? 'secondary' : 'primary'}>
-        {!isPending && (isNotified ? <BellRing className="size-4" /> : <Bell className="size-4" />)}
+        {!isPending && (isNotified ? <CheckIcon /> : <BellIcon />)}
         {isNotified ? "You'll be notified" : 'Notify Me'}
       </Button>
     </section>

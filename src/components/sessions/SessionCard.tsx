@@ -1,6 +1,6 @@
 import clsx from 'clsx'
-import { Ticket } from 'lucide-react'
 import type { Session } from '@/api/types'
+import { TicketIcon } from '@/components/icons'
 import { formatPrice } from '@/lib/format'
 
 const FEW_SEATS = 10
@@ -45,7 +45,7 @@ export default function SessionCard({ session, onSelect, disabled }: SessionCard
               !inactive && (session.seatsLeft <= FEW_SEATS ? 'text-primary' : 'text-success'),
             )}
           >
-            <Ticket className="size-3.5" />
+            <TicketIcon className="size-3.5" />
             {session.seatsLeft} left
           </span>
         )}

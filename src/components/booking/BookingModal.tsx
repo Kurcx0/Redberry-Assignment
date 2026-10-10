@@ -1,11 +1,11 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import clsx from 'clsx'
-import { CircleAlert, TriangleAlert } from 'lucide-react'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useNavigate } from 'react-router'
 import { holdSeats, releaseHold } from '@/api/booking'
 import { ApiError } from '@/api/client'
 import { getSeatMap, getSession } from '@/api/sessions'
+import { ErrorIcon } from '@/components/icons'
 import type { Order, Seat, SeatHold, Session, TicketTypeSlug } from '@/api/types'
 import ErrorState from '@/components/ui/ErrorState'
 import Modal from '@/components/ui/Modal'
@@ -250,11 +250,7 @@ function BookingFlow({ sessionId }: { sessionId: number }) {
                   : 'border-warning/40 bg-warning/10 text-warning',
               )}
             >
-              {notice.tone === 'error' ? (
-                <CircleAlert className="mt-0.5 size-4 shrink-0" />
-              ) : (
-                <TriangleAlert className="mt-0.5 size-4 shrink-0" />
-              )}
+              <ErrorIcon className="mt-0.5 size-4" />
               {notice.message}
             </div>
           )}

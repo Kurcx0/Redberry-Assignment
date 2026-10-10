@@ -1,11 +1,11 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation } from '@tanstack/react-query'
 import clsx from 'clsx'
-import { ImagePlus } from 'lucide-react'
 import { useEffect, useRef, useState, type ChangeEvent } from 'react'
 import { useForm } from 'react-hook-form'
 import { register as registerAccount } from '@/api/auth'
 import { ApiError } from '@/api/client'
+import { UserIcon } from '@/components/icons'
 import Button from '@/components/ui/Button'
 import Modal from '@/components/ui/Modal'
 import TextField from '@/components/ui/TextField'
@@ -119,7 +119,7 @@ function RegisterForm() {
             {avatarPreview ? (
               <img src={avatarPreview} alt="Avatar preview" className="size-full object-cover" />
             ) : (
-              <ImagePlus className="size-5 text-muted" />
+              <UserIcon className="size-5 text-muted" />
             )}
           </span>
           <span>

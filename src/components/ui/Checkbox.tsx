@@ -1,5 +1,5 @@
-import { Check } from 'lucide-react'
 import type { ReactNode } from 'react'
+import { CheckIcon } from '@/components/icons'
 
 type CheckboxProps = {
   checked: boolean
@@ -18,7 +18,7 @@ export default function Checkbox({ checked, onChange, label, description }: Chec
         onChange={(event) => onChange(event.target.checked)}
       />
       <span className="flex size-[18px] shrink-0 items-center justify-center rounded-[5px] border-[1.5px] border-dim transition-colors group-hover:border-muted peer-checked:border-primary peer-checked:bg-primary peer-focus-visible:ring-2 peer-focus-visible:ring-white/40">
-        {checked && <Check className="size-3.5 stroke-[3]" />}
+        {checked && <CheckIcon className="size-3.5" />}
       </span>
       <span>{label}</span>
       {description && <span className="text-xs font-normal text-muted">· {description}</span>}

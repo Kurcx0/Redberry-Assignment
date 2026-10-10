@@ -1,6 +1,6 @@
 import clsx from 'clsx'
-import { Check, CircleAlert } from 'lucide-react'
 import { useId, type InputHTMLAttributes, type ReactNode, type Ref } from 'react'
+import { CheckIcon, ErrorIcon } from '@/components/icons'
 
 type TextFieldProps = InputHTMLAttributes<HTMLInputElement> & {
   label: string
@@ -51,8 +51,8 @@ export default function TextField({
           {...props}
         />
         <span className="pointer-events-none absolute top-1/2 right-3.5 flex -translate-y-1/2 items-center">
-          {status === 'error' && <CircleAlert className="size-4 text-primary" />}
-          {status === 'valid' && <Check className="size-4 text-success" />}
+          {status === 'error' && <ErrorIcon className="size-4 text-primary" />}
+          {status === 'valid' && <CheckIcon className="size-4 text-success" />}
           {!status && icon}
         </span>
       </div>

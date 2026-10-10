@@ -1,8 +1,8 @@
 import { useQuery } from '@tanstack/react-query'
-import { Clapperboard } from 'lucide-react'
 import { Link } from 'react-router'
 import { getNowPlaying } from '@/api/movies'
 import type { Movie } from '@/api/types'
+import { TicketIcon } from '@/components/icons'
 import { AgeBadge } from '@/components/movies/Badges'
 import Poster from '@/components/movies/Poster'
 import { buttonClasses } from '@/components/ui/Button'
@@ -37,7 +37,7 @@ export default function NowPlaying() {
       {isError && <ErrorState onRetry={() => refetch()} retrying={isRefetching} />}
       {data?.length === 0 && (
         <EmptyState
-          icon={Clapperboard}
+          icon={<TicketIcon />}
           title="Nothing is playing right now"
           description="Check back soon, new sessions are added every week."
         />

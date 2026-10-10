@@ -1,7 +1,7 @@
 import clsx from 'clsx'
-import { Timer } from 'lucide-react'
 import type { ReactNode } from 'react'
 import type { AgeRating } from '@/api/types'
+import { TimerIcon } from '@/components/icons'
 
 export function AgeBadge({ rating, className }: { rating: AgeRating; className?: string }) {
   return (
@@ -33,7 +33,7 @@ export function Pill({ children, className }: { children: ReactNode; className?:
 export function RuntimePill({ minutes }: { minutes: number }) {
   return (
     <Pill>
-      <Timer className="size-3.5" />
+      <TimerIcon className="size-3.5" />
       {minutes} Min
     </Pill>
   )

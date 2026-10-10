@@ -1,5 +1,5 @@
 import clsx from 'clsx'
-import { ChevronLeft, ChevronRight } from 'lucide-react'
+import { ChevronLeftIcon, ChevronRightIcon } from '@/components/icons'
 
 type PaginationProps = {
   page: number
@@ -41,7 +41,7 @@ export default function Pagination({ page, lastPage, onChange }: PaginationProps
           aria-label="Previous page"
           className={clsx(itemClasses, 'bg-surface hover:bg-surface-2 disabled:cursor-not-allowed disabled:text-dim disabled:hover:bg-surface')}
         >
-          <ChevronLeft className="size-5" />
+          <ChevronLeftIcon className="size-5" />
         </button>
         {pageItems(page, lastPage).map((item, index) =>
           item === 'gap' ? (
@@ -67,7 +67,7 @@ export default function Pagination({ page, lastPage, onChange }: PaginationProps
           aria-label="Next page"
           className={clsx(itemClasses, 'bg-surface hover:bg-surface-2 disabled:cursor-not-allowed disabled:text-dim disabled:hover:bg-surface')}
         >
-          <ChevronRight className="size-5" />
+          <ChevronRightIcon className="size-5" />
         </button>
       </div>
     </nav>

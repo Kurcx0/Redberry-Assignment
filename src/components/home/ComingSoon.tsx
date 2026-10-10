@@ -1,9 +1,9 @@
 import { useQuery } from '@tanstack/react-query'
 import dayjs from 'dayjs'
-import { Bell, BellRing, CalendarClock } from 'lucide-react'
 import { Link } from 'react-router'
 import { getComingSoon } from '@/api/movies'
 import type { Movie } from '@/api/types'
+import { BellIcon, CalendarIcon, CheckIcon } from '@/components/icons'
 import { AgeBadge } from '@/components/movies/Badges'
 import Poster from '@/components/movies/Poster'
 import Button from '@/components/ui/Button'
@@ -34,7 +34,7 @@ export default function ComingSoon() {
       {isError && <ErrorState onRetry={() => refetch()} retrying={isRefetching} />}
       {data?.length === 0 && (
         <EmptyState
-          icon={CalendarClock}
+          icon={<CalendarIcon />}
           title="No upcoming releases yet"
           description="New titles will show up here as soon as they are announced."
         />
@@ -91,7 +91,7 @@ function ComingSoonCard({ movie }: { movie: Movie }) {
             loading={isPending}
             disabled={isNotified}
           >
-            {!isPending && (isNotified ? <BellRing className="size-4" /> : <Bell className="size-4" />)}
+            {!isPending && (isNotified ? <CheckIcon /> : <BellIcon />)}
             {isNotified ? 'Notified' : 'Notify Me'}
           </Button>
         </div>

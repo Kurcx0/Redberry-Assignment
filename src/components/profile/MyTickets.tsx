@@ -1,11 +1,11 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import clsx from 'clsx'
-import { History, Ticket } from 'lucide-react'
 import { useState } from 'react'
 import { Link, useSearchParams } from 'react-router'
 import { refundOrder } from '@/api/booking'
 import { ApiError } from '@/api/client'
 import type { Order } from '@/api/types'
+import { TicketIcon, TimerIcon } from '@/components/icons'
 import Button, { buttonClasses } from '@/components/ui/Button'
 import EmptyState from '@/components/ui/EmptyState'
 import ErrorState from '@/components/ui/ErrorState'
@@ -64,7 +64,7 @@ export default function MyTickets() {
 
         {data && orders.length === 0 && (
           <EmptyState
-            icon={view === 'upcoming' ? Ticket : History}
+            icon={view === 'upcoming' ? <TicketIcon /> : <TimerIcon />}
             title={view === 'upcoming' ? 'No upcoming tickets' : 'No past tickets'}
             description={
               view === 'upcoming'

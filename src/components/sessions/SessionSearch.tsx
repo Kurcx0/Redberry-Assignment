@@ -1,5 +1,5 @@
-import { Search, X } from 'lucide-react'
 import { useEffect, useState } from 'react'
+import { CloseIcon, SearchIcon } from '@/components/icons'
 
 type SessionSearchProps = {
   value: string
@@ -24,7 +24,7 @@ export default function SessionSearch({ value, onChange }: SessionSearchProps) {
 
   return (
     <div className="relative">
-      <Search className="pointer-events-none absolute top-1/2 left-3.5 size-4 -translate-y-1/2 text-muted" />
+      <SearchIcon className="pointer-events-none absolute top-1/2 left-3.5 size-4 -translate-y-1/2 text-muted" />
       <input
         type="search"
         value={text}
@@ -41,7 +41,7 @@ export default function SessionSearch({ value, onChange }: SessionSearchProps) {
           aria-label="Clear search"
           className="absolute top-1/2 right-3 -translate-y-1/2 text-muted hover:text-white"
         >
-          <X className="size-4" />
+          <CloseIcon className="size-4" />
         </button>
       )}
     </div>

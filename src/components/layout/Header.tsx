@@ -1,6 +1,6 @@
 import clsx from 'clsx'
-import { Search } from 'lucide-react'
 import { NavLink } from 'react-router'
+import { SearchIcon } from '@/components/icons'
 import Button from '@/components/ui/Button'
 import { useMe } from '@/hooks/useMe'
 import { useAuthModal } from '@/stores/authModal'
@@ -42,7 +42,7 @@ export default function Header({ overlay }: { overlay: boolean }) {
           onClick={openSearch}
           className="flex h-[38px] w-[380px] items-center gap-2.5 rounded-full border border-white/10 bg-white/8 px-4 text-left text-[13px] text-white/60 backdrop-blur-md transition-colors hover:border-white/25"
         >
-          <Search className="size-4" />
+          <SearchIcon />
           Search films and live events
         </button>
 

@@ -1,7 +1,7 @@
 import clsx from 'clsx'
-import { X } from 'lucide-react'
 import { useEffect, useId, useRef, type ReactNode } from 'react'
 import { createPortal } from 'react-dom'
+import { CloseIcon } from '@/components/icons'
 
 let stack: string[] = []
 
@@ -86,7 +86,7 @@ export default function Modal({
               aria-label="Close"
               className="absolute top-6 right-6 z-10 flex size-8 items-center justify-center rounded-full text-muted transition-colors hover:bg-white/8 hover:text-white"
             >
-              <X className="size-5" />
+              <CloseIcon className="size-5" />
             </button>
           )}
           {children}

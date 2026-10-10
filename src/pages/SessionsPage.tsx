@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query'
-import { CalendarX2 } from 'lucide-react'
 import { useCallback, useEffect, useMemo } from 'react'
 import { getSessions, type SessionsQuery } from '@/api/sessions'
+import { CalendarIcon } from '@/components/icons'
 import FiltersSidebar from '@/components/sessions/FiltersSidebar'
 import SessionGroup, { SessionGroupSkeleton } from '@/components/sessions/SessionGroup'
 import SessionSearch from '@/components/sessions/SessionSearch'
@@ -113,7 +113,7 @@ export default function SessionsPage() {
 
             {!loading && !sessions.isError && groups.length === 0 && (
               <EmptyState
-                icon={CalendarX2}
+                icon={<CalendarIcon />}
                 title="No sessions found"
                 description={
                   activeCount > 0

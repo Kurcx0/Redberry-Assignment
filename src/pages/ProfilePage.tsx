@@ -1,7 +1,7 @@
 import clsx from 'clsx'
-import { UserRound } from 'lucide-react'
 import { useEffect } from 'react'
 import { useNavigate, useSearchParams } from 'react-router'
+import { UserIcon } from '@/components/icons'
 import MyTickets from '@/components/profile/MyTickets'
 import PersonalInfoForm from '@/components/profile/PersonalInfoForm'
 import Button from '@/components/ui/Button'
@@ -27,7 +27,7 @@ export default function ProfilePage() {
         <ProfileContent />
       ) : (
         <EmptyState
-          icon={UserRound}
+          icon={<UserIcon />}
           title="Log in to see your profile"
           description="Your personal information and tickets are available after logging in."
           action={<Button onClick={() => requestLogin().catch(() => undefined)}>Log in</Button>}

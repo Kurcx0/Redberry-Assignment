@@ -1,9 +1,9 @@
 import clsx from 'clsx'
-import { Check, ChevronDown, LogOut, Ticket, UserRound } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router'
 import { logout } from '@/api/auth'
 import type { User } from '@/api/types'
+import { CheckIcon, ChevronDownIcon, LogOutIcon, TicketIcon, UserIcon } from '@/components/icons'
 import Avatar from '@/components/ui/Avatar'
 import { clearSession } from '@/lib/auth'
 
@@ -60,7 +60,7 @@ export default function UserMenu({ user }: { user: User }) {
           />
         </span>
         <span className="text-sm font-semibold">{firstName}</span>
-        <ChevronDown className={clsx('size-4 text-muted transition-transform', open && 'rotate-180')} />
+        <ChevronDownIcon className={clsx('size-4 text-muted transition-transform', open && 'rotate-180')} />
       </button>
 
       {open && (
@@ -79,7 +79,7 @@ export default function UserMenu({ user }: { user: User }) {
           {user.profileComplete ? (
             <div className="mx-1 mb-2 flex items-center justify-between rounded-xl bg-success/10 px-3 py-2.5 text-sm font-semibold text-success">
               Profile Complete
-              <Check className="size-4" />
+              <CheckIcon />
             </div>
           ) : (
             <Link
@@ -100,7 +100,7 @@ export default function UserMenu({ user }: { user: User }) {
             onClick={() => setOpen(false)}
             className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-colors hover:bg-white/6"
           >
-            <UserRound className="size-4 text-muted" />
+            <UserIcon className="size-4 text-muted" />
             My Profile
           </Link>
           <Link
@@ -109,7 +109,7 @@ export default function UserMenu({ user }: { user: User }) {
             onClick={() => setOpen(false)}
             className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-colors hover:bg-white/6"
           >
-            <Ticket className="size-4 text-muted" />
+            <TicketIcon className="size-4 text-muted" />
             My Tickets
           </Link>
 
@@ -121,7 +121,7 @@ export default function UserMenu({ user }: { user: User }) {
             onClick={handleLogout}
             className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-primary transition-colors hover:bg-primary/10"
           >
-            <LogOut className="size-4" />
+            <LogOutIcon />
             Log out
           </button>
         </div>

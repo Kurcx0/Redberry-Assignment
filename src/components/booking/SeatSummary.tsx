@@ -1,6 +1,6 @@
 import clsx from 'clsx'
-import { X } from 'lucide-react'
 import type { TicketType, TicketTypeSlug } from '@/api/types'
+import { CloseIcon } from '@/components/icons'
 import Button from '@/components/ui/Button'
 import { formatPrice } from '@/lib/format'
 
@@ -79,7 +79,7 @@ export default function SeatSummary({
                       aria-label={`Remove seat ${seat.code}`}
                       className="flex size-6 items-center justify-center rounded-full text-muted transition-colors hover:bg-white/10 hover:text-white"
                     >
-                      <X className="size-3.5" />
+                      <CloseIcon className="size-4" />
                     </button>
                   </div>
                 </div>

@@ -1,5 +1,5 @@
-import { Check } from 'lucide-react'
 import type { Order } from '@/api/types'
+import { CheckIcon } from '@/components/icons'
 import Poster from '@/components/movies/Poster'
 import Button from '@/components/ui/Button'
 import { formatPrice, formatShortDate } from '@/lib/format'
@@ -16,7 +16,7 @@ export default function Confirmation({ order, onViewTickets, onClose }: Confirma
   return (
     <div className="flex flex-col items-center px-10 py-12 text-center">
       <span className="flex size-14 items-center justify-center rounded-full bg-success text-page">
-        <Check className="size-7 stroke-[3]" />
+        <CheckIcon className="size-7" />
       </span>
       <h2 id="booking-title" className="mt-5 text-2xl font-extrabold">
         Booking confirmed!

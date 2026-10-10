@@ -1,6 +1,6 @@
 import clsx from 'clsx'
-import { Check, ChevronDown } from 'lucide-react'
 import { useCallback, useRef, useState } from 'react'
+import { CheckIcon, ChevronDownIcon } from '@/components/icons'
 import { useClickOutside } from '@/hooks/useClickOutside'
 
 type SortSelectProps = {
@@ -28,7 +28,7 @@ export default function SortSelect({ value, options, onChange }: SortSelectProps
       >
         <span className="text-muted">Sort:</span>
         <span className="font-semibold">{current?.label}</span>
-        <ChevronDown className={clsx('size-4 text-muted transition-transform', open && 'rotate-180')} />
+        <ChevronDownIcon className={clsx('size-4 text-muted transition-transform', open && 'rotate-180')} />
       </button>
 
       {open && (
@@ -50,7 +50,7 @@ export default function SortSelect({ value, options, onChange }: SortSelectProps
                 className="flex w-full items-center justify-between rounded-lg px-3 py-2.5 text-left text-[13px] transition-colors hover:bg-white/6"
               >
                 {option.label}
-                {option.id === current?.id && <Check className="size-4 text-primary" />}
+                {option.id === current?.id && <CheckIcon className="size-4 text-primary" />}
               </button>
             </li>
           ))}

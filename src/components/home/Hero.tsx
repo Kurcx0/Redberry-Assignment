@@ -1,11 +1,11 @@
 import { useQuery } from '@tanstack/react-query'
 import clsx from 'clsx'
 import dayjs from 'dayjs'
-import { ChevronLeft, ChevronRight, Ticket } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router'
 import { getFeaturedMovies } from '@/api/movies'
 import type { Movie } from '@/api/types'
+import { ChevronLeftIcon, ChevronRightIcon, TicketIcon } from '@/components/icons'
 import { AgeBadge, Pill, RuntimePill } from '@/components/movies/Badges'
 import { buttonClasses } from '@/components/ui/Button'
 import ErrorState from '@/components/ui/ErrorState'
@@ -96,7 +96,7 @@ export default function Hero() {
         )}
         <div className="mt-6 flex gap-3">
           <Link to={`/movies/${movie.slug}`} className={buttonClasses('primary', 'md')}>
-            <Ticket className="size-4" />
+            <TicketIcon />
             Buy tickets
           </Link>
           <Link to="/sessions" className={buttonClasses('glass', 'md')}>
@@ -137,7 +137,7 @@ export default function Hero() {
               aria-label="Previous film"
               className="flex size-10 items-center justify-center rounded-full bg-white/12 backdrop-blur-md transition-colors hover:bg-white/25"
             >
-              <ChevronLeft className="size-5" />
+              <ChevronLeftIcon className="size-5" />
             </button>
             <button
               type="button"
@@ -145,7 +145,7 @@ export default function Hero() {
               aria-label="Next film"
               className="flex size-10 items-center justify-center rounded-full bg-white/12 backdrop-blur-md transition-colors hover:bg-white/25"
             >
-              <ChevronRight className="size-5" />
+              <ChevronRightIcon className="size-5" />
             </button>
           </div>
         </div>

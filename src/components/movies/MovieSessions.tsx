@@ -1,8 +1,8 @@
 import { useQuery } from '@tanstack/react-query'
 import clsx from 'clsx'
-import { CalendarX2, Ticket, TriangleAlert } from 'lucide-react'
 import { getMovieSessions } from '@/api/movies'
 import type { MovieDetail, Session, VenueSessions } from '@/api/types'
+import { CalendarIcon, ErrorIcon, TicketIcon } from '@/components/icons'
 import EmptyState from '@/components/ui/EmptyState'
 import ErrorState from '@/components/ui/ErrorState'
 import Skeleton from '@/components/ui/Skeleton'
@@ -57,7 +57,7 @@ export default function MovieSessions({ movie, date }: MovieSessionsProps) {
   if (venues.length === 0) {
     return (
       <EmptyState
-        icon={CalendarX2}
+        icon={<CalendarIcon />}
         title="No sessions on this date"
         description="This film has no showtimes on the selected day. Try another date."
         className="rounded-2xl bg-surface/50"
@@ -69,7 +69,7 @@ export default function MovieSessions({ movie, date }: MovieSessionsProps) {
     <div className="space-y-8">
       {restricted && (
         <div role="alert" className="flex items-start gap-3 rounded-xl border border-warning/30 bg-warning/10 p-4 text-sm text-warning">
-          <TriangleAlert className="mt-0.5 size-4 shrink-0" />
+          <ErrorIcon className="mt-0.5 size-4" />
           {ageRestrictionMessage(movie.ageRating)}
         </div>
       )}
@@ -151,7 +151,7 @@ function SessionTile({ session, disabled, onSelect }: SessionTileProps) {
             'Sold out'
           ) : (
             <>
-              <Ticket className="size-3" />
+              <TicketIcon className="size-3" />
               {session.seatsLeft} left
             </>
           )}

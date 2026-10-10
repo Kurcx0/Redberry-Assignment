@@ -1,13 +1,13 @@
 import clsx from 'clsx'
-import { CircleAlert, CircleCheck, Info, TriangleAlert, X } from 'lucide-react'
 import { createPortal } from 'react-dom'
+import { CheckIcon, CloseIcon, ErrorIcon } from '@/components/icons'
 import { useToastStore, type ToastType } from '@/stores/toast'
 
-const icons: Record<ToastType, typeof Info> = {
-  success: CircleCheck,
-  error: CircleAlert,
-  warning: TriangleAlert,
-  info: Info,
+const icons: Record<ToastType, typeof ErrorIcon> = {
+  success: CheckIcon,
+  error: ErrorIcon,
+  warning: ErrorIcon,
+  info: ErrorIcon,
 }
 
 const colors: Record<ToastType, string> = {
@@ -39,7 +39,7 @@ export default function Toaster() {
               aria-label="Dismiss"
               className="text-muted transition-colors hover:text-white"
             >
-              <X className="size-4" />
+              <CloseIcon className="size-4" />
             </button>
           </div>
         )
