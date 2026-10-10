@@ -28,7 +28,7 @@ function toggle(list: string[], value: string, checked: boolean) {
   return checked ? [...list, value] : list.filter((item) => item !== value)
 }
 
-export function availableFormats(options: FilterOptions, venues: string[]) {
+function availableFormats(options: FilterOptions, venues: string[]) {
   if (venues.length === 0) return options.formats
 
   const slugs = new Set(

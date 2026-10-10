@@ -1,9 +1,9 @@
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import clsx from 'clsx'
 import { History, Ticket } from 'lucide-react'
 import { useState } from 'react'
 import { Link, useSearchParams } from 'react-router'
-import { getTickets, refundOrder } from '@/api/booking'
+import { refundOrder } from '@/api/booking'
 import { ApiError } from '@/api/client'
 import type { Order } from '@/api/types'
 import Button, { buttonClasses } from '@/components/ui/Button'
@@ -11,13 +11,10 @@ import EmptyState from '@/components/ui/EmptyState'
 import ErrorState from '@/components/ui/ErrorState'
 import Modal from '@/components/ui/Modal'
 import Skeleton from '@/components/ui/Skeleton'
+import { useTickets } from '@/hooks/useTickets'
 import { formatPrice, formatShortDate } from '@/lib/format'
 import { toast } from '@/stores/toast'
 import TicketCard from './TicketCard'
-
-export function useTickets() {
-  return useQuery({ queryKey: ['tickets'], queryFn: getTickets })
-}
 
 export default function MyTickets() {
   const [params, setParams] = useSearchParams()

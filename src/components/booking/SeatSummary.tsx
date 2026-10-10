@@ -24,7 +24,7 @@ type SeatSummaryProps = {
   onSubmit: () => void
 }
 
-export function ticketPrice(sessionPrice: number, ratio: number) {
+function ticketPrice(sessionPrice: number, ratio: number) {
   return Math.round(sessionPrice * ratio * 100) / 100
 }
 
