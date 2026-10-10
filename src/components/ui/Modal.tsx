@@ -99,7 +99,7 @@ export default function Modal({
           className={clsx(
             'animate-pop-in',
             !position && 'relative w-full',
-            !bare && 'rounded-3xl border border-white/8 bg-[#0b0e1f] shadow-2xl shadow-black/60',
+            !bare && 'rounded-[28px] bg-page shadow-[0_20px_50px_-10px_rgb(0_0_0/0.2)]',
             className,
           )}
         >

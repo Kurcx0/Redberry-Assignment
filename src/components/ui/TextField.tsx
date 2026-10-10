@@ -30,7 +30,7 @@ export default function TextField({
     <div className={className}>
       <label
         htmlFor={inputId}
-        className={clsx('mb-2 block text-sm font-semibold', error ? 'text-primary' : 'text-white')}
+        className={clsx('mb-2 block text-xs leading-4 font-semibold', error ? 'text-primary' : 'text-white')}
       >
         {label}
       </label>
@@ -41,7 +41,7 @@ export default function TextField({
           aria-invalid={!!error}
           aria-describedby={error || hint ? messageId : undefined}
           className={clsx(
-            'h-10 w-full rounded-xl border bg-surface pr-11 pl-4 text-sm font-semibold transition-colors outline-none placeholder:text-muted',
+            'h-10 w-full rounded-xl border bg-surface pr-11 pl-4 text-xs font-semibold transition-colors outline-none placeholder:text-muted',
             'disabled:cursor-not-allowed disabled:text-muted',
             error
               ? 'border-primary text-primary'
@@ -60,7 +60,7 @@ export default function TextField({
         </span>
       </div>
       {(error || hint) && (
-        <p id={messageId} className={clsx('mt-2 text-sm font-semibold', error ? 'text-primary' : 'text-muted')}>
+        <p id={messageId} className={clsx('mt-2 text-xs font-semibold', error ? 'text-primary' : 'text-muted')}>
           {error || hint}
         </p>
       )}
