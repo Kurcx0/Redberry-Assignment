@@ -1,0 +1,44 @@
+@import '@fontsource-variable/archivo';
+@import 'tailwindcss';
+
+@theme {
+  --font-sans: 'Archivo Variable', 'Archivo', system-ui, sans-serif;
+
+  --color-page: #060c1c;
+  --color-surface: #1e1f31;
+  --color-surface-2: #262739;
+  --color-surface-3: #31324a;
+  --color-line: #2e2f44;
+  --color-muted: #8f92a6;
+  --color-dim: #5f6278;
+  --color-primary: #e8331a;
+  --color-primary-hover: #ff4a2e;
+  --color-success: #4ade80;
+  --color-warning: #f5a524;
+  --color-danger: #ff4d4f;
+}
+
+@layer base {
+  html {
+    color-scheme: dark;
+  }
+
+  body {
+    @apply bg-page font-sans text-white antialiased;
+  }
+
+  button:not(:disabled),
+  [role='button']:not(:disabled) {
+    cursor: pointer;
+  }
+}
+
+@layer utilities {
+  .no-scrollbar {
+    scrollbar-width: none;
+  }
+
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+}
