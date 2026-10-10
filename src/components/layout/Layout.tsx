@@ -1,6 +1,7 @@
 import { matchPath, Outlet, ScrollRestoration, useLocation } from 'react-router'
 import LoginModal from '@/components/auth/LoginModal'
 import RegisterModal from '@/components/auth/RegisterModal'
+import SearchOverlay from '@/components/search/SearchOverlay'
 import Toaster from '@/components/ui/Toaster'
 import Footer from './Footer'
 import Header from './Header'
@@ -18,6 +19,7 @@ export default function Layout() {
         <Outlet />
       </main>
       <Footer />
+      <SearchOverlay />
       <LoginModal />
       <RegisterModal />
       <Toaster />
