@@ -1,12 +1,12 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import clsx from 'clsx'
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useNavigate } from 'react-router'
 import { holdSeats, releaseHold } from '@/api/booking'
 import { ApiError } from '@/api/client'
 import { getSeatMap, getSession } from '@/api/sessions'
-import { ErrorIcon } from '@/components/icons'
 import type { Order, Seat, SeatHold, Session, TicketTypeSlug } from '@/api/types'
+import { CloseIcon, ErrorIcon } from '@/components/icons'
 import ErrorState from '@/components/ui/ErrorState'
 import Modal from '@/components/ui/Modal'
 import Skeleton from '@/components/ui/Skeleton'
@@ -52,6 +52,20 @@ function BookingFlow({ sessionId }: { sessionId: number }) {
   const [order, setOrder] = useState<Order | null>(null)
   const [notice, setNotice] = useState<Notice | null>(null)
   const [restored, setRestored] = useState(false)
+  const [bodyHeight, setBodyHeight] = useState(0)
+  const bodyRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    const reset = () => setBodyHeight(0)
+    window.addEventListener('resize', reset)
+    return () => window.removeEventListener('resize', reset)
+  }, [])
+
+  const goTo = useCallback((next: Step) => {
+    const height = bodyRef.current?.offsetHeight ?? 0
+    setBodyHeight((current) => Math.max(current, height))
+    setStep(next)
+  }, [])
 
   const sessionQuery = useQuery({ queryKey: ['session', sessionId], queryFn: () => getSession(sessionId) })
   const mapQuery = useQuery({
@@ -65,7 +79,8 @@ function BookingFlow({ sessionId }: { sessionId: number }) {
   const maxSeats = options?.maxSeatsPerOrder ?? 3
   const ticketTypes = useMemo(() => options?.ticketTypes ?? [], [options])
 
-  if (mapQuery.data && !restored) {
+  useEffect(() => {
+    if (restored || !mapQuery.data) return
     setRestored(true)
     const mine = mapQuery.data.sections.flatMap((section) =>
       section.rows.flatMap((row) =>
@@ -75,7 +90,7 @@ function BookingFlow({ sessionId }: { sessionId: number }) {
       ),
     )
     if (mine.length) setSelected(mine.slice(0, maxSeats))
-  }
+  }, [restored, mapQuery.data, maxSeats])
 
   const refetchMap = useCallback(() => {
     queryClient.invalidateQueries({ queryKey: ['seats', sessionId] })
@@ -85,11 +100,11 @@ function BookingFlow({ sessionId }: { sessionId: number }) {
     (message = HOLD_EXPIRED) => {
       setHold(null)
       setSelected([])
-      setStep('seats')
+      goTo('seats')
       setNotice({ tone: 'warning', message })
       refetchMap()
     },
-    [refetchMap],
+    [refetchMap, goTo],
   )
 
   const remaining = useHoldCountdown(step !== 'done' ? (hold?.expiresAt ?? null) : null, expireHold)
@@ -109,7 +124,7 @@ function BookingFlow({ sessionId }: { sessionId: number }) {
         setContested((current) => new Set([...current, ...lost]))
         setSelected((current) => current.filter((seat) => !lost.includes(seat.code)))
         setHold(null)
-        setStep('seats')
+        goTo('seats')
         setNotice({
           tone: 'error',
           message: lost.length
@@ -128,7 +143,7 @@ function BookingFlow({ sessionId }: { sessionId: number }) {
       const fieldMessage = error.errors ? Object.values(error.errors)[0]?.[0] : null
       setNotice({ tone: 'error', message: fieldMessage ?? error.message })
     },
-    [expireHold, refetchMap],
+    [expireHold, refetchMap, goTo],
   )
 
   const holdMutation = useMutation({
@@ -140,13 +155,15 @@ function BookingFlow({ sessionId }: { sessionId: number }) {
     onSuccess: (data) => {
       setHold(data)
       setNotice(null)
-      setStep('checkout')
+      goTo('checkout')
     },
     onError: handleFailure,
   })
 
   function close() {
-    if (hold && !order) releaseHold(hold.holdId).catch(() => undefined)
+    if (hold && !order) {
+      releaseHold(hold.holdId).catch(() => undefined)
+    }
     closeBooking()
   }
 
@@ -197,8 +214,54 @@ function BookingFlow({ sessionId }: { sessionId: number }) {
     blockReason = ageRestrictionMessage(session.movie.ageRating)
   }
 
+  const stepBar = (
+    <div className="relative grid h-[33px] grid-cols-2 gap-2 rounded-full bg-surface" role="tablist" aria-label="Booking steps">
+      <span
+        aria-hidden
+        className={clsx(
+          'absolute inset-y-0 left-0 w-[calc(50%-4px)] rounded-full bg-primary transition-transform duration-300',
+          step === 'checkout' && 'translate-x-[calc(100%+8px)]',
+        )}
+      />
+      <button
+        type="button"
+        role="tab"
+        aria-selected={step === 'seats'}
+        onClick={() => goTo('seats')}
+        className="relative text-xs font-semibold uppercase"
+      >
+        Seats
+      </button>
+      <button
+        type="button"
+        role="tab"
+        aria-selected={step === 'checkout'}
+        disabled={!hold}
+        onClick={() => goTo('checkout')}
+        className="relative text-xs font-semibold uppercase disabled:cursor-not-allowed"
+      >
+        Checkout
+      </button>
+    </div>
+  )
+
+  const noticeBanner = notice && (
+    <div
+      role="alert"
+      className={clsx(
+        'mt-4 flex items-start gap-2.5 rounded-xl border px-4 py-2.5 text-xs leading-4',
+        notice.tone === 'error'
+          ? 'border-primary/40 bg-primary/10 text-primary'
+          : 'border-warning/40 bg-warning/10 text-warning',
+      )}
+    >
+      <ErrorIcon className="size-4" />
+      {notice.message}
+    </div>
+  )
+
   return (
-    <Modal open onClose={close} className="max-w-[1150px]" labelledBy="booking-title">
+    <Modal open onClose={close} className="max-w-[1146px]" labelledBy="booking-title" closeButton={step === 'done'}>
       {step === 'done' && order ? (
         <Confirmation
           order={order}
@@ -213,87 +276,65 @@ function BookingFlow({ sessionId }: { sessionId: number }) {
         />
       ) : (
         <div className="p-8">
-          <BookingHeader session={session} remaining={remaining} />
+          <BookingHeader session={session} remaining={remaining} onClose={close} />
 
-          <div className="mt-6 grid grid-cols-2 gap-1 rounded-full bg-surface p-1" role="tablist" aria-label="Booking steps">
-            <button
-              type="button"
-              role="tab"
-              aria-selected={step === 'seats'}
-              onClick={() => setStep('seats')}
-              className={clsx(
-                'h-9 rounded-full text-xs font-extrabold tracking-[0.08em] uppercase transition-colors',
-                step === 'seats' ? 'bg-primary' : 'text-muted hover:text-white',
-              )}
-            >
-              1. Seats
-            </button>
-            <button
-              type="button"
-              role="tab"
-              aria-selected={step === 'checkout'}
-              disabled={!hold}
-              onClick={() => setStep('checkout')}
-              className={clsx(
-                'h-9 rounded-full text-xs font-extrabold tracking-[0.08em] uppercase transition-colors',
-                step === 'checkout' ? 'bg-primary' : 'text-muted enabled:hover:text-white disabled:cursor-not-allowed',
-              )}
-            >
-              2. Checkout
-            </button>
-          </div>
-
-          {notice && (
-            <div
-              role="alert"
-              className={clsx(
-                'mt-5 flex items-start gap-3 rounded-xl border px-4 py-3 text-sm',
-                notice.tone === 'error'
-                  ? 'border-primary/40 bg-primary/10 text-primary'
-                  : 'border-warning/40 bg-warning/10 text-warning',
-              )}
-            >
-              <ErrorIcon className="mt-0.5 size-4" />
-              {notice.message}
-            </div>
-          )}
-
-          <div className="mt-6">
+          <div ref={bodyRef} className="mt-8 flex flex-col" style={{ minHeight: bodyHeight || undefined }}>
             {step === 'seats' && (
-              <div className="grid grid-cols-[1fr_320px] gap-8">
-                <div className="min-w-0">
-                  {mapQuery.isPending && <MapSkeleton />}
-                  {mapQuery.isError && (
-                    <ErrorState onRetry={() => mapQuery.refetch()} retrying={mapQuery.isRefetching} />
-                  )}
-                  {mapQuery.data && (
-                    <SeatMap
-                      map={mapQuery.data}
-                      selectedIds={new Set(selected.map((seat) => seat.id))}
-                      contested={contested}
-                      onToggle={toggleSeat}
-                    />
-                  )}
+              <div className="grid flex-1 grid-cols-[minmax(0,1fr)_1px_321px] gap-x-5">
+                <div>
+                  {stepBar}
+                  {noticeBanner}
+                  <div className="mt-5">
+                    {mapQuery.isPending && <MapSkeleton />}
+                    {mapQuery.isError && (
+                      <ErrorState onRetry={() => mapQuery.refetch()} retrying={mapQuery.isRefetching} />
+                    )}
+                    {mapQuery.data && (
+                      <SeatMap
+                        map={mapQuery.data}
+                        selectedIds={new Set(selected.map((seat) => seat.id))}
+                        contested={contested}
+                        onToggle={toggleSeat}
+                      />
+                    )}
+                  </div>
                 </div>
-                <SeatSummary
-                  seats={selected}
-                  ticketTypes={ticketTypes}
-                  maxSeats={maxSeats}
-                  sessionPrice={session?.price ?? 0}
-                  violations={violations}
-                  blockReason={blockReason}
-                  submitting={holdMutation.isPending}
-                  onTicketTypeChange={changeTicketType}
-                  onRemove={(seatId) => setSelected(selected.filter((seat) => seat.id !== seatId))}
-                  onSubmit={() => {
-                    if (!holdMutation.isPending) holdMutation.mutate()
-                  }}
-                />
+                <div className="bg-surface" />
+                <div className="relative">
+                  <div className="absolute inset-0">
+                    <SeatSummary
+                      seats={selected}
+                      ticketTypes={ticketTypes}
+                      maxSeats={maxSeats}
+                      sessionPrice={session?.price ?? 0}
+                      violations={violations}
+                      blockReason={blockReason}
+                      submitting={holdMutation.isPending}
+                      onTicketTypeChange={changeTicketType}
+                      onRemove={(seatId) => setSelected(selected.filter((seat) => seat.id !== seatId))}
+                      onSubmit={() => {
+                        if (!holdMutation.isPending) holdMutation.mutate()
+                      }}
+                    />
+                  </div>
+                </div>
               </div>
             )}
 
             {step === 'checkout' && hold && session && (
-              <Checkout session={session} hold={hold} user={user} onPaid={handlePaid} onFailed={handleFailure} />
+              <Checkout
+                session={session}
+                hold={hold}
+                user={user}
+                header={
+                  <>
+                    {stepBar}
+                    {noticeBanner}
+                  </>
+                }
+                onPaid={handlePaid}
+                onFailed={handleFailure}
+              />
             )}
           </div>
         </div>
@@ -302,39 +343,53 @@ function BookingFlow({ sessionId }: { sessionId: number }) {
   )
 }
 
-function BookingHeader({ session, remaining }: { session?: Session; remaining: number | null }) {
-  if (!session) {
-    return (
-      <div className="space-y-3">
-        <Skeleton className="h-7 w-64" />
-        <Skeleton className="h-4 w-[520px]" />
-      </div>
-    )
-  }
+type BookingHeaderProps = {
+  session?: Session
+  remaining: number | null
+  onClose: () => void
+}
 
+function BookingHeader({ session, remaining, onClose }: BookingHeaderProps) {
   return (
-    <div className="flex items-start justify-between gap-6 pr-10">
-      <div>
-        <h2 id="booking-title" className="text-[22px] font-extrabold uppercase">
-          {session.movie.title}
-        </h2>
-        <p className="mt-1.5 text-[13px] text-muted">
-          {session.venue.name} · Hall {session.hall.name} · {formatLongDate(session.date)} · {session.time} ·{' '}
-          {session.format.name} · {session.language.name}
-        </p>
-      </div>
+    <div className="flex items-start gap-3">
+      {session ? (
+        <div className="min-w-0 flex-1">
+          <h2 id="booking-title" className="text-xl leading-[22px] font-extrabold uppercase">
+            {session.movie.title}
+          </h2>
+          <p className="mt-2 text-xs leading-4 text-muted">
+            {session.venue.name} · Hall {session.hall.name} · {formatLongDate(session.date)} · {session.time} ·{' '}
+            {session.format.name} · {session.language.name}
+          </p>
+        </div>
+      ) : (
+        <div className="flex-1 space-y-2">
+          <Skeleton className="h-[22px] w-64" />
+          <Skeleton className="h-4 w-[460px]" />
+        </div>
+      )}
       {remaining !== null && <HoldTimer seconds={remaining} />}
+      <button
+        type="button"
+        onClick={onClose}
+        aria-label="Close"
+        className="mt-[7px] flex size-8 shrink-0 items-center justify-center rounded-full text-muted transition-colors hover:bg-white/8 hover:text-white"
+      >
+        <CloseIcon className="size-5" />
+      </button>
     </div>
   )
 }
 
 function MapSkeleton() {
   return (
-    <div className="space-y-3">
-      <Skeleton className="mb-8 h-8 w-full" />
-      {Array.from({ length: 6 }, (_, index) => (
-        <Skeleton key={index} className="mx-auto h-[38px] w-[560px]" />
-      ))}
+    <div>
+      <Skeleton className="mx-5 h-[30px]" />
+      <div className="mt-[31px] space-y-2.5">
+        {Array.from({ length: 6 }, (_, index) => (
+          <Skeleton key={index} className="mx-auto h-[52px] w-[644px]" />
+        ))}
+      </div>
     </div>
   )
 }

@@ -13,6 +13,7 @@ type ModalProps = {
   labelledBy?: string
   label?: string
   bare?: boolean
+  closeButton?: boolean
   position?: { top: number; left: number }
 }
 
@@ -24,6 +25,7 @@ export default function Modal({
   labelledBy,
   label,
   bare = false,
+  closeButton = true,
   position,
 }: ModalProps) {
   const id = useId()
@@ -103,7 +105,7 @@ export default function Modal({
             className,
           )}
         >
-          {!bare && (
+          {!bare && closeButton && (
             <button
               type="button"
               onClick={onClose}
