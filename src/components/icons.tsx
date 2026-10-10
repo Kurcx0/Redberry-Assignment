@@ -5,7 +5,7 @@ type IconProps = { className?: string }
 
 function Icon({ className, children }: IconProps & { children: ReactNode }) {
   return (
-    <svg viewBox="0 0 16 16" fill="none" aria-hidden className={clsx('shrink-0', className ?? 'size-4')}>
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden className={clsx('shrink-0', className)}>
       {children}
     </svg>
   )
@@ -158,11 +158,11 @@ export function SearchIcon(props: IconProps) {
 }
 
 export function ChevronLeftIcon({ className }: IconProps) {
-  return <ChevronDownIcon className={clsx('rotate-90', className ?? 'size-4')} />
+  return <ChevronDownIcon className={clsx('rotate-90', className)} />
 }
 
 export function ChevronRightIcon({ className }: IconProps) {
-  return <ChevronDownIcon className={clsx('-rotate-90', className ?? 'size-4')} />
+  return <ChevronDownIcon className={clsx('-rotate-90', className)} />
 }
 
 export function PopcornIcon(props: IconProps) {
