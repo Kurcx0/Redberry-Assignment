@@ -6,6 +6,7 @@ import { queryClient } from '@/lib/queryClient'
 import HomePage from '@/pages/HomePage'
 import MoviePage from '@/pages/MoviePage'
 import NotFoundPage from '@/pages/NotFoundPage'
+import ProfilePage from '@/pages/ProfilePage'
 import SessionsPage from '@/pages/SessionsPage'
 
 const router = createBrowserRouter([
@@ -15,6 +16,7 @@ const router = createBrowserRouter([
       { path: '/', element: <HomePage /> },
       { path: '/sessions', element: <SessionsPage /> },
       { path: '/movies/:slug', element: <MoviePage /> },
+      { path: '/profile', element: <ProfilePage /> },
       { path: '*', element: <NotFoundPage /> },
     ],
   },
