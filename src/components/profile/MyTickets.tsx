@@ -58,7 +58,7 @@ export default function MyTickets() {
 
       <div className="mt-6 space-y-4">
         {isPending &&
-          Array.from({ length: 2 }, (_, index) => <Skeleton key={index} className="h-[164px] w-full rounded-2xl" />)}
+          Array.from({ length: 2 }, (_, index) => <Skeleton key={index} className="h-[183px] w-full rounded-[26px]" />)}
 
         {isError && <ErrorState onRetry={() => refetch()} retrying={isRefetching} className="rounded-2xl bg-surface/50" />}
 

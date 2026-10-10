@@ -3,12 +3,19 @@ import type { ReactNode } from 'react'
 import type { AgeRating } from '@/api/types'
 import { TimerIcon } from '@/components/icons'
 
-export function AgeBadge({ rating, className }: { rating: AgeRating; className?: string }) {
+type AgeBadgeProps = {
+  rating: AgeRating
+  size?: 'sm' | 'md'
+  className?: string
+}
+
+export function AgeBadge({ rating, size = 'md', className }: AgeBadgeProps) {
   return (
     <span
       title={rating.description}
       className={clsx(
-        'inline-flex h-[22px] shrink-0 items-center rounded-full bg-primary/10 px-2.5 text-xs font-semibold text-primary',
+        'inline-flex shrink-0 items-center rounded-full bg-primary/10 text-xs font-semibold text-primary',
+        size === 'sm' ? 'h-[19px] px-2' : 'h-[22px] px-2.5',
         className,
       )}
     >
