@@ -30,7 +30,7 @@ export default function NowPlaying() {
       {isPending && (
         <CardRow>
           {Array.from({ length: 7 }, (_, index) => (
-            <Skeleton key={index} className="h-[477px] w-[258px] shrink-0 rounded-2xl" />
+            <Skeleton key={index} className="h-[450px] w-[260px] shrink-0 rounded-[18px]" />
           ))}
         </CardRow>
       )}
@@ -57,47 +57,46 @@ function NowPlayingCard({ movie }: { movie: Movie }) {
   const genre = movie.genres[0]?.name
 
   return (
-    <article className="group flex w-[258px] shrink-0 flex-col rounded-2xl bg-surface p-2.5 transition-[width] duration-500 ease-out hover:w-[444px]">
+    <article className="group flex h-[450px] w-[260px] shrink-0 flex-col rounded-[18px] border border-line bg-surface p-3.5 transition-[width] duration-500 ease-out focus-within:w-[445px] hover:w-[445px]">
       <Link
         to={`/movies/${movie.slug}`}
-        className="relative block h-[357px] overflow-hidden rounded-xl bg-surface-2"
+        className="relative block h-[285px] shrink-0 overflow-hidden rounded-xl bg-surface-2 transition-[height] duration-500 ease-out group-focus-within:h-[219px] group-hover:h-[219px]"
         aria-label={movie.title}
       >
         <Poster
           src={movie.posterUrl}
           alt={movie.title}
-          className="absolute inset-0 size-full transition-opacity duration-500 group-hover:opacity-0"
+          className="absolute inset-0 size-full transition-opacity duration-500 group-focus-within:opacity-0 group-hover:opacity-0"
         />
         {movie.backdropUrl && (
           <img
             src={movie.backdropUrl}
             alt=""
             loading="lazy"
-            className="absolute inset-0 size-full object-cover opacity-0 transition-opacity duration-500 group-hover:opacity-100"
+            className="absolute inset-0 size-full object-cover opacity-0 transition-opacity duration-500 group-focus-within:opacity-100 group-hover:opacity-100"
           />
         )}
       </Link>
-      <div className="flex flex-1 flex-col px-1.5 pt-3.5 pb-1">
-        <h3 className="truncate text-base font-extrabold">
-          <Link to={`/movies/${movie.slug}`} className="hover:underline">
-            {movie.title}
-          </Link>
-        </h3>
-        <div className="mt-2 flex items-center gap-2 text-[13px] text-muted">
-          <AgeBadge rating={movie.ageRating} />
-          <span className="truncate">
-            {genre ? `${genre} · ` : ''}
-            {formatRuntime(movie.runtimeMinutes)}
-          </span>
-        </div>
-        <div className="mt-4 flex items-center justify-between gap-3">
-          <span className="text-[13px] text-muted">
-            from <span className="text-base font-extrabold text-white">{formatPrice(movie.fromPrice)}</span>
-          </span>
-          <Link to={`/movies/${movie.slug}`} className={buttonClasses('primary', 'md')}>
-            Buy Ticket
-          </Link>
-        </div>
+      <h3 className="mt-3.5 truncate text-xl font-extrabold">
+        <Link to={`/movies/${movie.slug}`} className="hover:underline">
+          {movie.title}
+        </Link>
+      </h3>
+      <p className="mt-1 truncate text-sm text-muted">
+        {genre ? `${genre} · ` : ''}
+        {formatRuntime(movie.runtimeMinutes)}
+      </p>
+      <AgeBadge rating={movie.ageRating} className="mt-2.5 self-start" />
+      {movie.synopsis && (
+        <p className="line-clamp-3 max-h-0 text-sm leading-5 text-muted opacity-0 transition-all duration-500 group-focus-within:mt-3 group-focus-within:max-h-[60px] group-focus-within:opacity-100 group-hover:mt-3 group-hover:max-h-[60px] group-hover:opacity-100">
+          {movie.synopsis}
+        </p>
+      )}
+      <div className="mt-auto flex items-center justify-between gap-3">
+        <span className="text-sm font-extrabold">From {formatPrice(movie.fromPrice)}</span>
+        <Link to={`/movies/${movie.slug}`} className={buttonClasses('primary', 'md')}>
+          Buy Ticket
+        </Link>
       </div>
     </article>
   )
