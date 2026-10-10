@@ -4,6 +4,7 @@ import Layout from '@/components/layout/Layout'
 import '@/lib/auth'
 import { queryClient } from '@/lib/queryClient'
 import HomePage from '@/pages/HomePage'
+import MoviePage from '@/pages/MoviePage'
 import NotFoundPage from '@/pages/NotFoundPage'
 import SessionsPage from '@/pages/SessionsPage'
 
@@ -13,6 +14,7 @@ const router = createBrowserRouter([
     children: [
       { path: '/', element: <HomePage /> },
       { path: '/sessions', element: <SessionsPage /> },
+      { path: '/movies/:slug', element: <MoviePage /> },
       { path: '*', element: <NotFoundPage /> },
     ],
   },
