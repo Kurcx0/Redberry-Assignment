@@ -124,9 +124,9 @@ export default function Checkout({ session, hold, user, onPaid, onFailed }: Chec
       </div>
 
       <div className="flex flex-col">
-        <h3 className="text-sm font-bold">Summary</h3>
+        <h3 className="text-sm font-extrabold">Summary</h3>
         <div className="mt-4 rounded-xl bg-surface p-4">
-          <p className="font-bold">{session.movie.title}</p>
+          <p className="font-extrabold">{session.movie.title}</p>
           <p className="mt-1 text-xs text-muted">
             Hall {session.hall.name} · {formatShortDate(session.date)} · {session.time}
           </p>
@@ -144,7 +144,7 @@ export default function Checkout({ session, hold, user, onPaid, onFailed }: Chec
         <div className="mt-auto pt-6">
           <div className="flex items-center justify-between border-t border-line pt-4">
             <span className="text-xs font-semibold tracking-[0.08em] text-muted uppercase">Total</span>
-            <span className="text-2xl font-bold">{formatPrice(hold.subtotal)}</span>
+            <span className="text-2xl font-extrabold">{formatPrice(hold.subtotal)}</span>
           </div>
           <Button type="submit" size="lg" className="mt-4 w-full" loading={mutation.isPending}>
             Pay &amp; Complete Order

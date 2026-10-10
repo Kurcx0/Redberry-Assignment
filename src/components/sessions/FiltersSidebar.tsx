@@ -16,7 +16,7 @@ type FiltersSidebarProps = {
 function FilterGroup({ title, children }: { title: string; children: ReactNode }) {
   return (
     <fieldset className="border-t border-line pt-5 first-of-type:border-0 first-of-type:pt-0">
-      <legend className="float-left mb-2.5 w-full text-xs font-medium tracking-[0.08em] text-muted uppercase">
+      <legend className="float-left mb-2.5 w-full text-xs font-semibold tracking-[0.08em] text-muted uppercase">
         {title}
       </legend>
       <div className="clear-left">{children}</div>
@@ -74,7 +74,7 @@ export default function FiltersSidebar({
   return (
     <aside className="sticky top-6 flex max-h-[calc(100vh/var(--app-zoom,1)-48px)] w-[318px] shrink-0 flex-col self-start rounded-2xl bg-surface">
       <div className="thin-scrollbar flex-1 space-y-5 overflow-y-auto p-5 pb-4">
-        <h2 className="text-lg font-bold">Filters</h2>
+        <h2 className="text-lg font-extrabold">Filters</h2>
 
         <FilterGroup title="Venue">
           {options.venues.map((venue) => (

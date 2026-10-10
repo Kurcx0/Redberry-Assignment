@@ -14,7 +14,7 @@ export default function HoldTimer({ seconds }: { seconds: number }) {
       )}
     >
       <p className="text-[10px] font-semibold tracking-[0.1em] text-muted uppercase">Seats held</p>
-      <p className="text-lg leading-6 font-bold tabular-nums">
+      <p className="text-lg leading-6 font-extrabold tabular-nums">
         {minutes}:{rest}
       </p>
     </div>

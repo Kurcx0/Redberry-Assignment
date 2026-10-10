@@ -47,7 +47,7 @@ export default function SeatSummary({
 
   return (
     <div className="flex h-full flex-col">
-      <h3 className="text-sm font-bold">
+      <h3 className="text-sm font-extrabold">
         Your seats <span className="font-normal text-muted">· Max {maxSeats}</span>
       </h3>
 
@@ -66,11 +66,11 @@ export default function SeatSummary({
               >
                 <div className="flex items-center justify-between">
                   <p className="text-[13px]">
-                    <span className="text-muted">Seat</span> <span className="font-bold">{seat.code}</span>
+                    <span className="text-muted">Seat</span> <span className="font-extrabold">{seat.code}</span>
                     <span className="ml-1.5 text-xs text-muted">· {seat.section}</span>
                   </p>
                   <div className="flex items-center gap-2">
-                    <span className="text-sm font-bold">
+                    <span className="text-sm font-extrabold">
                       {formatPrice(ticketPrice(sessionPrice, ratioOf(seat.ticketType)))}
                     </span>
                     <button
@@ -116,7 +116,7 @@ export default function SeatSummary({
         )}
         <div className="flex items-center justify-between border-t border-line pt-4">
           <span className="text-xs font-semibold tracking-[0.08em] text-muted uppercase">Subtotal</span>
-          <span className="text-2xl font-bold">{formatPrice(subtotal)}</span>
+          <span className="text-2xl font-extrabold">{formatPrice(subtotal)}</span>
         </div>
         <Button size="lg" className="mt-4 w-full" disabled={!canContinue} loading={submitting} onClick={onSubmit}>
           Next: Checkout

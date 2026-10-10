@@ -22,7 +22,7 @@ export default function SessionGroup({ group, onSelect }: SessionGroupProps) {
         </Link>
         <div>
           <div className="flex items-center gap-3">
-            <h3 className="text-xl font-bold">
+            <h3 className="text-xl font-extrabold">
               <Link to={`/movies/${movie.slug}`} className="hover:underline">
                 {movie.title}
               </Link>

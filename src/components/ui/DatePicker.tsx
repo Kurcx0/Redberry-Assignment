@@ -30,14 +30,14 @@ export default function DatePicker({ value, onChange, availableDates, size = 'sm
             disabled={disabled}
             onClick={() => onChange(day.value)}
             className={clsx(
-              'flex flex-col items-center justify-center rounded-lg font-medium transition-colors',
+              'flex flex-col items-center justify-center rounded-lg font-semibold transition-colors',
               size === 'sm' ? 'h-[54px] text-xs' : 'h-[62px] w-[58px] text-[13px]',
               selected ? 'bg-primary text-white' : 'bg-surface-2 text-white hover:bg-surface-3',
               disabled && 'cursor-not-allowed text-dim hover:bg-surface-2',
             )}
           >
             <span>{day.weekday}</span>
-            <span className={clsx('mt-0.5 font-bold', size === 'sm' ? 'text-sm' : 'text-base')}>
+            <span className={clsx('mt-0.5', size === 'sm' ? 'text-sm' : 'text-base font-extrabold')}>
               {day.day}
             </span>
           </button>

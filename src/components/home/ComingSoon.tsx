@@ -65,12 +65,12 @@ function ComingSoonCard({ movie }: { movie: Movie }) {
           alt={movie.title}
           className="size-full transition-transform duration-500 hover:scale-105"
         />
-        <span className="absolute top-3 left-3 rounded-full bg-page/80 px-2.5 py-1 text-[11px] font-bold tracking-wide text-warning uppercase backdrop-blur-sm">
+        <span className="absolute top-3 left-3 rounded-full bg-page/80 px-2.5 py-1 text-[11px] font-extrabold tracking-wide text-warning uppercase backdrop-blur-sm">
           Coming soon
         </span>
       </Link>
       <div className="flex flex-1 flex-col px-1.5 pt-3.5 pb-1">
-        <h3 className="truncate text-base font-bold">
+        <h3 className="truncate text-base font-extrabold">
           <Link to={`/movies/${movie.slug}`} className="hover:underline">
             {movie.title}
           </Link>

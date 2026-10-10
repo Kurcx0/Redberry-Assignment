@@ -22,7 +22,7 @@ export default function ProfilePage() {
 
   return (
     <section className="px-[52px] pt-6 pb-24">
-      <h1 className="text-[28px] font-bold">My Profile</h1>
+      <h1 className="text-[28px] font-extrabold">My Profile</h1>
       {token ? (
         <ProfileContent />
       ) : (
@@ -67,7 +67,7 @@ function ProfileContent() {
           >
             {item.label}
             {item.id === 'tickets' && upcomingCount > 0 && (
-              <span className="flex size-5 items-center justify-center rounded-full bg-primary text-[11px] font-bold text-white">
+              <span className="flex size-5 items-center justify-center rounded-full bg-primary text-[11px] font-extrabold text-white">
                 {upcomingCount}
               </span>
             )}

@@ -24,7 +24,7 @@ export default function Confirmation({ order, onViewTickets, onClose }: Confirma
       <p className="mt-2 max-w-sm text-sm text-muted">
         Your tickets are ready. We&apos;ve sent the confirmation to {order.contact.email}.
       </p>
-      <span className="mt-4 rounded-full bg-surface-2 px-4 py-1.5 text-xs font-bold tracking-wide">
+      <span className="mt-4 rounded-full bg-surface-2 px-4 py-1.5 text-xs font-extrabold tracking-wide">
         ORDER #{order.reference}
       </span>
 
@@ -32,7 +32,7 @@ export default function Confirmation({ order, onViewTickets, onClose }: Confirma
         <div className="flex items-center gap-4">
           <Poster src={session.movie.posterUrl} alt="" className="h-[68px] w-12 shrink-0 rounded-md" />
           <div className="min-w-0">
-            <p className="truncate font-bold">{session.movie.title}</p>
+            <p className="truncate font-extrabold">{session.movie.title}</p>
             <p className="mt-1 text-xs text-muted">
               {session.venue.name} · Hall {session.hall.name} · {formatShortDate(session.date)} · {session.time}
             </p>
@@ -52,7 +52,7 @@ export default function Confirmation({ order, onViewTickets, onClose }: Confirma
           ))}
           <div className="flex items-center justify-between border-t border-line pt-3">
             <dt className="text-xs font-semibold tracking-[0.08em] text-muted uppercase">Total paid</dt>
-            <dd className="text-xl font-bold">{formatPrice(order.totalPrice)}</dd>
+            <dd className="text-xl font-extrabold">{formatPrice(order.totalPrice)}</dd>
           </div>
         </dl>
       </div>

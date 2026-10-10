@@ -114,7 +114,7 @@ function RefundDialog({ order, onClose }: { order: Order | null; onClose: () => 
     <Modal open={!!order} onClose={() => !mutation.isPending && onClose()} className="max-w-[440px]" labelledBy="refund-title">
       {order && (
         <div className="p-8">
-          <h2 id="refund-title" className="text-xl font-bold">
+          <h2 id="refund-title" className="text-xl font-extrabold">
             Refund this order?
           </h2>
           <p className="mt-2 text-sm leading-6 text-muted">

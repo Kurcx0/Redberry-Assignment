@@ -27,7 +27,7 @@ export default function SessionCard({ session, onSelect, disabled }: SessionCard
       )}
     >
       <span className="flex items-center justify-between gap-2">
-        <span className="text-xl font-bold">{session.time}</span>
+        <span className="text-xl font-extrabold">{session.time}</span>
         <span className="rounded-full bg-surface-3 px-2.5 py-1 text-[11px] font-semibold uppercase">
           {session.format.name}
         </span>
@@ -41,7 +41,7 @@ export default function SessionCard({ session, onSelect, disabled }: SessionCard
         ) : (
           <span
             className={clsx(
-              'flex shrink-0 items-center gap-1 font-medium',
+              'flex shrink-0 items-center gap-1',
               !inactive && (session.seatsLeft <= FEW_SEATS ? 'text-primary' : 'text-success'),
             )}
           >
@@ -54,8 +54,8 @@ export default function SessionCard({ session, onSelect, disabled }: SessionCard
         <span className="truncate text-xs font-semibold">
           {session.venue.name} · Hall {session.hall.name}
         </span>
-        <span className="shrink-0 text-base font-bold">
-          <span className={clsx('text-[11px] font-medium', !inactive && 'text-muted')}>from </span>
+        <span className="shrink-0 text-base font-extrabold">
+          <span className={clsx('text-[11px]', !inactive && 'text-muted')}>from </span>
           {formatPrice(session.price)}
         </span>
       </span>

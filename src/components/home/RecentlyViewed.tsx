@@ -21,7 +21,7 @@ export default function RecentlyViewed() {
           >
             <Poster src={movie.posterUrl} alt={movie.title} className="h-[68px] w-12 shrink-0 rounded-md" />
             <div className="min-w-0">
-              <p className="truncate text-sm font-bold uppercase">{movie.title}</p>
+              <p className="truncate text-sm font-extrabold uppercase">{movie.title}</p>
               <p className="mt-1 truncate text-xs text-muted">
                 {movie.genres[0]?.name ?? (movie.kind === 'event' ? 'Event' : 'Film')} ·{' '}
                 {formatRuntime(movie.runtimeMinutes)}

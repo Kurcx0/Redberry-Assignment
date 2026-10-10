@@ -42,7 +42,7 @@ function Highlight({ text, query }: { text: string; query: string }) {
   return (
     <span className="text-muted">
       {text.slice(0, index)}
-      <span className="font-bold text-white">{text.slice(index, index + query.length)}</span>
+      <span className="text-white">{text.slice(index, index + query.length)}</span>
       {text.slice(index + query.length)}
     </span>
   )
@@ -158,7 +158,7 @@ function Message({ icon, title, description, onBrowse }: MessageProps) {
       <span className="flex size-16 items-center justify-center rounded-full bg-surface-2 text-white">
         {icon}
       </span>
-      <p className="mt-6 text-xl font-bold">{title}</p>
+      <p className="mt-6 text-xl font-extrabold">{title}</p>
       <p className="mt-2 text-muted">{description}</p>
       <Button variant="dark" className="mt-7 px-8" onClick={onBrowse}>
         Browse all sessions
@@ -177,7 +177,7 @@ function SearchResult({ movie, query, onSelect }: { movie: Movie; query: string;
       >
         <Poster src={movie.posterUrl} alt="" className="h-[64px] w-[46px] shrink-0 rounded-md" />
         <div className="min-w-0 flex-1">
-          <p className="truncate text-lg">
+          <p className="truncate text-lg font-semibold">
             <Highlight text={movie.title} query={query} />
           </p>
           <p className="mt-0.5 text-sm text-muted">
@@ -187,7 +187,7 @@ function SearchResult({ movie, query, onSelect }: { movie: Movie; query: string;
         </div>
         <span
           className={clsx(
-            'shrink-0 text-base font-bold',
+            'shrink-0 text-base font-extrabold',
             movie.isComingSoon ? 'text-warning' : 'text-white',
           )}
         >

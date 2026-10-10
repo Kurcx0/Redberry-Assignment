@@ -94,7 +94,7 @@ type VenueGroupProps = {
 function VenueGroup({ group, disabled, onSelect }: VenueGroupProps) {
   return (
     <section>
-      <h3 className="text-sm font-bold">
+      <h3 className="text-sm font-extrabold">
         {group.venue.name}
         <span className="ml-2 text-xs font-normal text-muted">{group.venue.city}</span>
       </h3>
@@ -135,7 +135,7 @@ function SessionTile({ session, disabled, onSelect }: SessionTileProps) {
       )}
     >
       <span className="flex flex-1 flex-col items-center justify-center gap-1.5">
-        <span className="text-base font-bold">{session.time}</span>
+        <span className="text-base font-extrabold">{session.time}</span>
         <span className="flex items-center gap-1.5 text-[11px]">
           <span className="text-muted" title={session.language.name}>
             {session.language.code}
@@ -145,7 +145,7 @@ function SessionTile({ session, disabled, onSelect }: SessionTileProps) {
       </span>
       <span className="my-3 border-l border-dashed border-line" />
       <span className="flex w-[76px] flex-col items-center justify-center gap-1.5">
-        <span className="text-base font-bold text-primary">{formatPrice(session.price)}</span>
+        <span className="text-base font-extrabold text-primary">{formatPrice(session.price)}</span>
         <span className="flex items-center gap-1 text-[11px] text-muted">
           {session.isSoldOut ? (
             'Sold out'

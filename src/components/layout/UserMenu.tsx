@@ -98,7 +98,7 @@ export default function UserMenu({ user }: { user: User }) {
             to="/profile"
             role="menuitem"
             onClick={() => setOpen(false)}
-            className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-colors hover:bg-white/6"
+            className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm transition-colors hover:bg-white/6"
           >
             <UserIcon className="size-4 text-muted" />
             My Profile
@@ -107,7 +107,7 @@ export default function UserMenu({ user }: { user: User }) {
             to="/profile?tab=tickets"
             role="menuitem"
             onClick={() => setOpen(false)}
-            className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-colors hover:bg-white/6"
+            className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm transition-colors hover:bg-white/6"
           >
             <TicketIcon className="size-4 text-muted" />
             My Tickets
@@ -119,7 +119,7 @@ export default function UserMenu({ user }: { user: User }) {
             type="button"
             role="menuitem"
             onClick={handleLogout}
-            className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-primary transition-colors hover:bg-primary/10"
+            className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm text-primary transition-colors hover:bg-primary/10"
           >
             <LogOutIcon />
             Log out

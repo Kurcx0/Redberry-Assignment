@@ -80,7 +80,7 @@ export default function Hero() {
       <div className="absolute inset-x-0 bottom-0 h-64 bg-gradient-to-t from-page to-transparent" />
 
       <div key={movie.id} className="absolute bottom-[150px] left-[68px] w-[580px] animate-pop-in">
-        <span className="inline-flex h-6 items-center rounded-full bg-primary/15 px-2.5 text-[11px] font-bold tracking-wide text-primary uppercase">
+        <span className="inline-flex h-6 items-center rounded-full bg-primary/15 px-2.5 text-[11px] font-extrabold tracking-wide text-primary uppercase">
           {releaseLabel(movie)}
         </span>
         <h1 className="mt-4 text-[44px] leading-[1.1] font-extrabold">{movie.title}</h1>

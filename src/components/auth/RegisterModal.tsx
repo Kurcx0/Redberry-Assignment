@@ -99,7 +99,7 @@ function RegisterForm() {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} noValidate className="p-8">
-      <h2 id="register-title" className="text-[22px] font-bold">
+      <h2 id="register-title" className="text-[22px] font-extrabold">
         Sign up
       </h2>
       <p className="mt-1 text-[13px] text-muted">Welcome to Kino XII</p>

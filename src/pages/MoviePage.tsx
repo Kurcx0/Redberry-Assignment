@@ -88,7 +88,7 @@ function MovieHero({ movie }: { movie: MovieDetail }) {
         />
         <div className="max-w-[600px] pb-2">
           {movie.genres.length > 0 && (
-            <span className="inline-flex h-6 items-center rounded-full bg-primary/15 px-2.5 text-[11px] font-bold tracking-wide text-primary uppercase">
+            <span className="inline-flex h-6 items-center rounded-full bg-primary/15 px-2.5 text-[11px] font-extrabold tracking-wide text-primary uppercase">
               {movie.genres.map((genre) => genre.name).join(' · ')}
             </span>
           )}
@@ -121,7 +121,7 @@ function SessionsSection({ movie }: { movie: MovieDetail }) {
 
   return (
     <section>
-      <h2 className="text-xl font-bold">Sessions</h2>
+      <h2 className="text-xl font-extrabold">Sessions</h2>
       <div className="mt-4">
         <DatePicker
           size="lg"
@@ -151,8 +151,8 @@ function ComingSoonNotice({ movie }: { movie: MovieDetail }) {
 
   return (
     <section className="rounded-2xl bg-surface p-8">
-      <span className="text-xs font-bold tracking-wide text-warning uppercase">Coming soon</span>
-      <h2 className="mt-2 text-xl font-bold">In cinemas from {formatReleaseDate(movie.releaseDate)}</h2>
+      <span className="text-xs font-extrabold tracking-wide text-warning uppercase">Coming soon</span>
+      <h2 className="mt-2 text-xl font-extrabold">In cinemas from {formatReleaseDate(movie.releaseDate)}</h2>
       <p className="mt-2 max-w-lg text-sm text-muted">
         Sessions for this title are not on sale yet. Get notified as soon as tickets become available.
       </p>
@@ -167,7 +167,7 @@ function ComingSoonNotice({ movie }: { movie: MovieDetail }) {
 function DetailItem({ label, children }: { label: string; children: ReactNode }) {
   return (
     <div>
-      <dt className="text-[11px] font-medium tracking-[0.08em] text-muted uppercase">{label}</dt>
+      <dt className="text-[11px] font-semibold tracking-[0.08em] text-muted uppercase">{label}</dt>
       <dd className="mt-1 text-sm font-semibold">{children}</dd>
     </div>
   )
@@ -176,7 +176,7 @@ function DetailItem({ label, children }: { label: string; children: ReactNode })
 function MovieDetails({ movie }: { movie: MovieDetail }) {
   return (
     <aside className="w-[405px] shrink-0">
-      <h2 className="text-xl font-bold">Details</h2>
+      <h2 className="text-xl font-extrabold">Details</h2>
       <dl className="mt-5 space-y-4">
         {movie.director && <DetailItem label="Director">{movie.director}</DetailItem>}
         {movie.cast && <DetailItem label="Main cast">{movie.cast}</DetailItem>}
@@ -191,7 +191,7 @@ function MovieDetails({ movie }: { movie: MovieDetail }) {
         {!movie.isComingSoon && <DetailItem label="From">{formatPrice(movie.fromPrice)}</DetailItem>}
       </dl>
       <div className="mt-6 rounded-xl border border-warning/30 bg-warning/8 p-4">
-        <p className="text-[11px] font-bold tracking-[0.08em] text-warning uppercase">Rating note</p>
+        <p className="text-[11px] font-extrabold tracking-[0.08em] text-warning uppercase">Rating note</p>
         <p className="mt-1.5 text-[13px] leading-5 text-warning/90">
           {movie.ageRating.code} · {movie.ageRating.description}
         </p>

@@ -78,7 +78,7 @@ function NowPlayingCard({ movie }: { movie: Movie }) {
         )}
       </Link>
       <div className="flex flex-1 flex-col px-1.5 pt-3.5 pb-1">
-        <h3 className="truncate text-base font-bold">
+        <h3 className="truncate text-base font-extrabold">
           <Link to={`/movies/${movie.slug}`} className="hover:underline">
             {movie.title}
           </Link>
@@ -92,7 +92,7 @@ function NowPlayingCard({ movie }: { movie: Movie }) {
         </div>
         <div className="mt-4 flex items-center justify-between gap-3">
           <span className="text-[13px] text-muted">
-            from <span className="text-base font-bold text-white">{formatPrice(movie.fromPrice)}</span>
+            from <span className="text-base font-extrabold text-white">{formatPrice(movie.fromPrice)}</span>
           </span>
           <Link to={`/movies/${movie.slug}`} className={buttonClasses('primary', 'md')}>
             Buy Ticket

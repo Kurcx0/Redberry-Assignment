@@ -219,7 +219,7 @@ function BookingFlow({ sessionId }: { sessionId: number }) {
               aria-selected={step === 'seats'}
               onClick={() => setStep('seats')}
               className={clsx(
-                'h-9 rounded-full text-xs font-bold tracking-[0.08em] uppercase transition-colors',
+                'h-9 rounded-full text-xs font-extrabold tracking-[0.08em] uppercase transition-colors',
                 step === 'seats' ? 'bg-primary' : 'text-muted hover:text-white',
               )}
             >
@@ -232,7 +232,7 @@ function BookingFlow({ sessionId }: { sessionId: number }) {
               disabled={!hold}
               onClick={() => setStep('checkout')}
               className={clsx(
-                'h-9 rounded-full text-xs font-bold tracking-[0.08em] uppercase transition-colors',
+                'h-9 rounded-full text-xs font-extrabold tracking-[0.08em] uppercase transition-colors',
                 step === 'checkout' ? 'bg-primary' : 'text-muted enabled:hover:text-white disabled:cursor-not-allowed',
               )}
             >

@@ -48,7 +48,7 @@ function LoginForm() {
 
   return (
     <form onSubmit={handleSubmit((values) => mutation.mutate(values))} noValidate className="p-8">
-      <h2 id="login-title" className="text-[22px] font-bold">
+      <h2 id="login-title" className="text-[22px] font-extrabold">
         Log in
       </h2>
       <p className="mt-1 text-[13px] text-muted">Welcome back to Kino XII</p>

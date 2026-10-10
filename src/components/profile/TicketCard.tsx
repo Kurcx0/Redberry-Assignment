@@ -13,7 +13,7 @@ type TicketCardProps = {
 function Info({ label, children }: { label: string; children: ReactNode }) {
   return (
     <div>
-      <p className="text-[10px] font-medium tracking-[0.1em] text-muted uppercase">{label}</p>
+      <p className="text-[10px] font-semibold tracking-[0.1em] text-muted uppercase">{label}</p>
       <p className="mt-1 text-[13px] font-semibold">{children}</p>
     </div>
   )
@@ -29,7 +29,7 @@ export default function TicketCard({ order, onRefund }: TicketCardProps) {
 
       <div className="min-w-0 flex-1">
         <div className="flex items-center gap-3">
-          <h3 className="truncate text-lg font-bold">{session.movie.title}</h3>
+          <h3 className="truncate text-lg font-extrabold">{session.movie.title}</h3>
           <AgeBadge rating={session.movie.ageRating} />
           <span className="text-[13px] text-muted">{formatRuntime(session.movie.runtimeMinutes)}</span>
         </div>
@@ -45,7 +45,7 @@ export default function TicketCard({ order, onRefund }: TicketCardProps) {
           </Info>
         </div>
         <div className="mt-4 flex flex-wrap items-center gap-2">
-          <span className="mr-1 text-[10px] font-medium tracking-[0.1em] text-muted uppercase">Seats</span>
+          <span className="mr-1 text-[10px] font-semibold tracking-[0.1em] text-muted uppercase">Seats</span>
           {order.tickets.map((ticket) => (
             <span key={ticket.id} className="rounded-md bg-surface-2 px-2 py-1 text-xs font-semibold">
               {ticket.seatCode} · {ticket.ticketType.name}
@@ -55,11 +55,11 @@ export default function TicketCard({ order, onRefund }: TicketCardProps) {
       </div>
 
       <div className="flex w-[220px] shrink-0 flex-col border-l border-dashed border-line pl-6">
-        <p className="text-[10px] font-medium tracking-[0.1em] text-muted uppercase">Order</p>
-        <p className="text-sm font-bold">#{order.reference}</p>
+        <p className="text-[10px] font-semibold tracking-[0.1em] text-muted uppercase">Order</p>
+        <p className="text-sm font-extrabold">#{order.reference}</p>
         <div className="mt-auto flex items-end justify-between pt-3">
           <span className="text-xs text-muted">Total paid</span>
-          <span className="text-2xl font-bold">{formatPrice(order.totalPrice)}</span>
+          <span className="text-2xl font-extrabold">{formatPrice(order.totalPrice)}</span>
         </div>
         {order.isUpcoming && onRefund ? (
           <>

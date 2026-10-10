@@ -32,7 +32,7 @@ export default function Avatar({ user, className }: AvatarProps) {
     <span
       aria-hidden
       className={clsx(
-        'flex shrink-0 items-center justify-center rounded-full bg-surface-3 text-xs font-bold text-white',
+        'flex shrink-0 items-center justify-center rounded-full bg-surface-3 text-xs font-extrabold text-white',
         className ?? 'size-9',
       )}
     >
