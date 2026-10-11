@@ -109,9 +109,11 @@ export default function PersonalInfoForm({ user }: { user: User }) {
           <TextField
             label="Date of birth"
             type="date"
+            min="1900-01-01"
             max={dayjs().format('YYYY-MM-DD')}
             icon={<CalendarIcon className="size-4 text-muted" />}
-            className="[&_input::-webkit-calendar-picker-indicator]:opacity-0"
+            className="[&_input]:cursor-pointer [&_input::-webkit-calendar-picker-indicator]:hidden"
+            onClick={(event) => event.currentTarget.showPicker()}
             {...fieldState('dateOfBirth')}
             {...register('dateOfBirth')}
           />
