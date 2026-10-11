@@ -2,12 +2,13 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import clsx from 'clsx'
 import dayjs from 'dayjs'
-import { useForm } from 'react-hook-form'
+import { Controller, useForm } from 'react-hook-form'
 import { updateProfile } from '@/api/auth'
 import { ApiError } from '@/api/client'
 import type { User } from '@/api/types'
-import { CalendarIcon, CheckIcon, ChevronDownIcon, ErrorIcon } from '@/components/icons'
+import { CheckIcon, ChevronDownIcon, ErrorIcon } from '@/components/icons'
 import Button from '@/components/ui/Button'
+import DateField from '@/components/ui/DateField'
 import TextField from '@/components/ui/TextField'
 import { useFilterOptions } from '@/hooks/useFilterOptions'
 import { applyServerErrors } from '@/lib/forms'
@@ -34,6 +35,7 @@ export default function PersonalInfoForm({ user }: { user: User }) {
   const { data: options } = useFilterOptions()
   const {
     register,
+    control,
     handleSubmit,
     reset,
     setError,
@@ -106,16 +108,21 @@ export default function PersonalInfoForm({ user }: { user: User }) {
           {...register('mobileNumber')}
         />
         <div>
-          <TextField
-            label="Date of birth"
-            type="date"
-            min="1900-01-01"
-            max={dayjs().format('YYYY-MM-DD')}
-            icon={<CalendarIcon className="size-4 text-muted" />}
-            className="[&_input]:cursor-pointer [&_input::-webkit-calendar-picker-indicator]:hidden"
-            onClick={(event) => event.currentTarget.showPicker()}
-            {...fieldState('dateOfBirth')}
-            {...register('dateOfBirth')}
+          <Controller
+            control={control}
+            name="dateOfBirth"
+            render={({ field }) => (
+              <DateField
+                label="Date of birth"
+                value={field.value}
+                onChange={field.onChange}
+                onBlur={field.onBlur}
+                min="1900-01-01"
+                max={dayjs().format('YYYY-MM-DD')}
+                placeholder="Select your date of birth"
+                {...fieldState('dateOfBirth')}
+              />
+            )}
           />
           {user.age !== null && !errors.dateOfBirth && (
             <p className={clsx('mt-1.5 text-xs', user.age >= 18 ? 'text-muted' : 'text-warning')}>
